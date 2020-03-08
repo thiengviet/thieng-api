@@ -1,0 +1,45 @@
+###### Server Errors ######
+
+# Database error
+error.500.1 = {"status": 500, "message": "Database error"}
+
+# Database inconsistence
+error.500.2 = {"status": 500, "message": "Database inconsistence"}
+
+# Ethereum network error
+error.500.3 = {"status": 500, "message": "Ethereum network error"}
+
+# Binance network error
+error.500.4 = {"status": 500, "message": "Binance network error"}
+
+
+###### Client Errors ######
+
+
+## Request Errors ##
+
+# Invalid inputs
+error.400.1 = {"status": 400, "message": "Invalid inputs"}
+
+# Record existed
+error.400.2 = {"status": 400, "message": "Record existed"}
+
+# Record not existed
+error.400.3 = {"status": 400, "message": "Record not existed"}
+
+# Exceed the limit number
+error.400.4 = {"status": 400, "message": "Exceed the limit number"}
+
+## Authentication Errors ##
+
+# Invalid Username/Password
+error.401.1 = {"status": 401, "message": "Invalid username/password"}
+
+# Invalid token
+error.401.2 = {"status": 401, "message": "Invalid token"}
+
+# Unauthenticated request
+error.401.3 = {"status": 401, "message": "Unauthenticated request"}
+
+# No privilege
+error.401.4 = {"status": 401, "message": "No privilege"}
