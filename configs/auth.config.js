@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 /**
  * Contructor
  */
@@ -7,6 +9,10 @@ var configs = {};
  * Development configurations
  */
 configs.development = {
+  keys: {
+    publicKey: fs.readFileSync(__dirname + '/keys/dev.public.pem'),
+    privateKey: fs.readFileSync(__dirname + '/keys/dev.private.key'),
+  },
   google: {
     "client_id": "114004784341-bk6g9beaf47m6tlkldi22f5vg7lu1k3m.apps.googleusercontent.com",
     "project_id": "thieng-1583675924547",
@@ -28,6 +34,7 @@ configs.development = {
  * Staging configurations
  */
 configs.staging = {
+  keys: {},
   google: {},
   facebook: {},
   apple: {}
@@ -37,6 +44,7 @@ configs.staging = {
  * Production configurations
  */
 configs.production = {
+  keys: {},
   google: {},
   facebook: {},
   apple: {}

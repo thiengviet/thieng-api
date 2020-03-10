@@ -62,6 +62,24 @@ const facebookToken = function (accessToken) {
   })
 }
 
+/**
+ * Token generation
+ */
+generate = (data) => {
+  const privateKey = configs.auth.keys.privateKey;
+  const token = jwt.sign(data, privateKey, { algorithm: 'RS256' });
+  return token;
+}
+verify = (accessToken) => {
+  const publicKey = configs.auth.keys.publicKey;
+  return new Promise((resolve, reject) => {
+    jwt.verify(accessToken, publicKey, function (er, re) {
+      if (er) return reject(er);
+      return resolve(re);
+    });
+  });
+}
+
 module.exports = {
 
   /**
@@ -79,13 +97,17 @@ module.exports = {
 
     if (service == 'google') {
       return googleToken(accessToken).then(re => {
-        req.auth = {
+        const data = {
           service: 'google',
           email: re.email,
-          exp: re.exp * 1000,
+          exp: re.exp,
           displayname: re.name,
-          avatar: re.picture,
-          accessToken: null
+          avatar: re.picture
+        }
+        const token = generate(data);
+        req.auth = {
+          ...data,
+          accessToken: token
         }
         return next();
       }).catch(er => {
@@ -95,20 +117,35 @@ module.exports = {
 
     if (service == 'facebook') {
       return facebookToken(accessToken).then(re => {
-        req.auth = {
+        const data = {
           service: 'facebook',
           email: re.email,
-          exp: re.exp * 1000,
+          exp: re.exp,
           displayname: re.name,
-          avatar: re.picture,
-          accessToken: null
+          avatar: re.picture
+        }
+        const token = generate(data);
+        req.auth = {
+          ...data,
+          accessToken: token
         }
         return next();
       }).catch(er => {
         return next(properties('error.401.2'));
       });
     }
-    return next(properties('error.401.2'));
 
+    return next(properties('error.401.2'));
   },
+
+  /**
+   * Generate access token
+   * @function generateToken
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  generateToken: function (req, res, next) {
+    return res.send({ status: 'OK', data: req.auth });
+  }
 }
