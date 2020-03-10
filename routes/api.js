@@ -1,17 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-
 /**
  * Controllers
  */
 var controllers = require('../controllers');
-var { } = controllers;
+var { auth, user } = controllers;
 
 // User
-router.get('/user', (req, res, next) => {
-  res.send({ status: 'OK', data: 'Hello worl' });
-});
+router.get('/user', auth.oauthToken, user.getUser);
 
 /**
  * Module exports

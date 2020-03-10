@@ -13,6 +13,6 @@ module.exports = {
    * @param {*} next
    */
   getUser: function (req, res, next) {
-    return res.send({ status: 'OK', data: 'Hello world!' });
+    return res.send({ status: 'OK', data: req.auth });
   }
 }
