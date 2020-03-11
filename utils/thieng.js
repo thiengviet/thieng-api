@@ -26,7 +26,6 @@ thiengJS.verifyToken = function (token) {
 thiengJS.generateUserId = function (origin, email) {
   if (!origin || !email) return null;
   const hash = crypto.createHash('sha256');
-  console.log([origin, email].join('/'))
   hash.update([origin, email].join('/'));
   return hash.digest('hex');
 }
