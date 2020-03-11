@@ -9,8 +9,9 @@ var { auth, user } = controllers;
 
 // Authentication
 router.get('/authentication', auth.oauthToken, auth.generateToken);
+
 // User
-router.get('/user', auth.oauthToken, user.getUser);
+router.get('/user', auth.bearerToken, user.getUser);
 
 /**
  * Module exports

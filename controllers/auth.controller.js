@@ -1,84 +1,9 @@
 var properties = global.properties;
 var configs = global.configs;
-var axios = require('axios');
-var jwt = require('jsonwebtoken');
-const { OAuth2Client } = require('google-auth-library');
+var googleJS = require('../utils/google');
+var facebookJS = require('../utils/facebook');
+var thiengJS = require('../utils/thieng');
 
-/**
- * Google authentication
- */
-const googleClient = new OAuth2Client(configs.auth.google.clientId);
-const googleToken = function (token) {
-  return new Promise((resolve, reject) => {
-    googleClient.verifyIdToken({ idToken: token }).then(re => {
-      let payload = re.getPayload();
-      return resolve(payload);
-    }).catch(er => {
-      return reject(er);
-    });
-  });
-}
-
-/**
- * Facebook authentication 
- */
-const facebookClient = {
-  verifyIdToken: function (token) {
-    return axios({
-      method: 'get',
-      url: 'https://graph.facebook.com/v6.0/debug_token',
-      params: { input_token: token, access_token: token }
-    });
-  },
-  getUserData: function (userId, token) {
-    return axios({
-      method: 'get',
-      url: 'https://graph.facebook.com/v6.0/' + userId,
-      params: { fields: 'id,name,email,picture', access_token: token }
-    });
-  }
-}
-const facebookToken = function (accessToken) {
-  var data = {}
-  return new Promise((resolve, reject) => {
-    facebookClient.verifyIdToken(accessToken).then(re => {
-      let payload = re.data;
-      if (!payload) return reject('No data');
-
-      data.userId = payload.data.user_id;
-      data.exp = payload.data.data_access_expires_at;
-      return facebookClient.getUserData(data.userId, accessToken)
-    }).then(re => {
-      let payload = re.data;
-      if (!payload) return reject('No data');
-
-      data.email = payload.email;
-      data.name = payload.name;
-      data.picture = payload.picture.data.url;
-      return resolve(data);
-    }).catch(er => {
-      return reject(er);
-    })
-  })
-}
-
-/**
- * Token generation
- */
-generate = (data) => {
-  const privateKey = configs.auth.keys.privateKey;
-  const token = jwt.sign(data, privateKey, { algorithm: 'RS256' });
-  return token;
-}
-verify = (accessToken) => {
-  const publicKey = configs.auth.keys.publicKey;
-  return new Promise((resolve, reject) => {
-    jwt.verify(accessToken, publicKey, function (er, re) {
-      if (er) return reject(er);
-      return resolve(re);
-    });
-  });
-}
 
 module.exports = {
 
@@ -92,12 +17,16 @@ module.exports = {
   oauthToken: function (req, res, next) {
     const { authorization } = req.headers;
     if (!authorization || typeof authorization != 'string') return next(properties('error.401.1'));
-    const [service, accessToken] = authorization.split(" ");
+    const [service, accessToken] = authorization.split(' ');
     if (!service || !accessToken) return next(properties('error.401.1'));
 
     if (service == 'google') {
-      return googleToken(accessToken).then(re => {
+      return googleJS.verifyToken(accessToken).then(re => {
+        const userId = thiengJS.generateUserId('google', re.email);
+        if (!userId) return next(properties('error.401.2'));
+
         const data = {
+          userId: userId,
           service: 'thieng',
           origin: 'google',
           email: re.email,
@@ -105,7 +34,7 @@ module.exports = {
           displayname: re.name,
           avatar: re.picture
         }
-        const token = generate(data);
+        const token = thiengJS.generateToken(data);
         req.auth = {
           ...data,
           accessToken: token
@@ -117,8 +46,12 @@ module.exports = {
     }
 
     if (service == 'facebook') {
-      return facebookToken(accessToken).then(re => {
+      return facebookJS.verifyToken(accessToken).then(re => {
+        const userId = thiengJS.generateUserId('facebook', re.email);
+        if (!userId) return next(properties('error.401.2'));
+
         const data = {
+          userId: userId,
           service: 'thieng',
           origin: 'facebook',
           email: re.email,
@@ -126,7 +59,7 @@ module.exports = {
           displayname: re.name,
           avatar: re.picture
         }
-        const token = generate(data);
+        const token = thiengJS.generateToken(data);
         req.auth = {
           ...data,
           accessToken: token
@@ -138,6 +71,29 @@ module.exports = {
     }
 
     return next(properties('error.401.2'));
+  },
+
+  /**
+   * Verify thieng's token
+   * @function bearerToken
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  bearerToken: function (req, res, next) {
+    const { authorization } = req.headers;
+    if (!authorization || typeof authorization != 'string') return next(properties('error.401.1'));
+    const [service, accessToken] = authorization.split(' ');
+    if (service != 'thieng') return next(properties('error.401.1'));
+    if (!accessToken) return next(properties('error.401.1'));
+
+    thiengJS.verifyToken(accessToken).then(re => {
+      if (!re) return next(properties('error.401.2'));
+      req.auth = re;
+      return next();
+    }).catch(er => {
+      return next(properties('error.401.2'));
+    });
   },
 
   /**
