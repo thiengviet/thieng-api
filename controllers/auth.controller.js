@@ -7,7 +7,7 @@ const { OAuth2Client } = require('google-auth-library');
 /**
  * Google authentication
  */
-const googleClient = new OAuth2Client(configs.auth.google.client_id);
+const googleClient = new OAuth2Client(configs.auth.google.clientId);
 const googleToken = function (token) {
   return new Promise((resolve, reject) => {
     googleClient.verifyIdToken({ idToken: token }).then(re => {
@@ -98,7 +98,8 @@ module.exports = {
     if (service == 'google') {
       return googleToken(accessToken).then(re => {
         const data = {
-          service: 'google',
+          service: 'thieng',
+          origin: 'google',
           email: re.email,
           exp: re.exp,
           displayname: re.name,
@@ -118,7 +119,8 @@ module.exports = {
     if (service == 'facebook') {
       return facebookToken(accessToken).then(re => {
         const data = {
-          service: 'facebook',
+          service: 'thieng',
+          origin: 'facebook',
           email: re.email,
           exp: re.exp,
           displayname: re.name,
