@@ -11,14 +11,14 @@ error.500.1 = {"status": 500, "message": "Database error"}
 
 # Invalid inputs
 error.400.1 = {"status": 400, "message": "Invalid inputs"}
+# Duplicate documents
+error.400.2 = {"status": 400, "message": "Duplicate documents"}
 
 ## Authentication Errors ##
 
 # Unauthenticated request
 error.401.1 = {"status": 401, "message": "Unauthenticated request"}
-
 # Invalid token
 error.401.2 = {"status": 401, "message": "Invalid token"}
-
 # No privilege
 error.401.3 = {"status": 401, "message": "No privilege"}

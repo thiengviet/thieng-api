@@ -12,6 +12,7 @@ router.get('/authentication', auth.oauthToken, auth.generateToken);
 
 // User
 router.get('/user', auth.bearerToken, user.getUser);
+router.put('/user', auth.bearerToken, user.syncUser);
 
 /**
  * Module exports
