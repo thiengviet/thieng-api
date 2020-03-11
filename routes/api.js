@@ -8,11 +8,10 @@ var controllers = require('../controllers');
 var { auth, user } = controllers;
 
 // Authentication
-router.get('/authentication', auth.oauthToken, auth.generateToken);
+router.get('/authentication', auth.oauthToken, user.syncUser, auth.generateToken);
 
 // User
 router.get('/user', auth.bearerToken, user.getUser);
-router.put('/user', auth.bearerToken, user.syncUser);
 
 /**
  * Module exports

@@ -31,7 +31,7 @@ module.exports = {
       function (er, re) {
         if (er) return next(properties('error.500.1'));
 
-        return res.send({ status: 'OK', data: re });
+        return next();
       });
   },
 
@@ -49,7 +49,7 @@ module.exports = {
     db.User.findOne({ userId: auth.userId }, function (er, re) {
       if (er) return next(properties('error.500.1'));
 
-      return res.send({ status: 'OK', data: req.auth });
+      return res.send({ status: 'OK', data: re });
     })
   }
 }
