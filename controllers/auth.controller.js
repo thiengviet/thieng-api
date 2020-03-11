@@ -25,7 +25,7 @@ module.exports = {
         const userId = thiengJS.generateUserId('google', re.email);
         if (!userId) return next(properties('error.401.2'));
 
-        const data = {
+        req.auth = {
           userId: userId,
           service: 'thieng',
           origin: 'google',
@@ -33,11 +33,6 @@ module.exports = {
           exp: re.exp,
           displayname: re.name,
           avatar: re.picture
-        }
-        const token = thiengJS.generateToken(data);
-        req.auth = {
-          ...data,
-          accessToken: token
         }
         return next();
       }).catch(er => {
@@ -50,7 +45,7 @@ module.exports = {
         const userId = thiengJS.generateUserId('facebook', re.email);
         if (!userId) return next(properties('error.401.2'));
 
-        const data = {
+        req.auth = {
           userId: userId,
           service: 'thieng',
           origin: 'facebook',
@@ -58,11 +53,6 @@ module.exports = {
           exp: re.exp,
           displayname: re.name,
           avatar: re.picture
-        }
-        const token = thiengJS.generateToken(data);
-        req.auth = {
-          ...data,
-          accessToken: token
         }
         return next();
       }).catch(er => {
@@ -104,6 +94,13 @@ module.exports = {
    * @param {*} next
    */
   generateToken: function (req, res, next) {
-    return res.send({ status: 'OK', data: req.auth });
+    const data = req.auth;
+    if (!data || typeof data != 'object') return next(properties('error.401.1'));
+    const token = thiengJS.generateToken(data);
+    const re = {
+      ...data,
+      accessToken: token
+    }
+    return res.send({ status: 'OK', data: re });
   }
 }
