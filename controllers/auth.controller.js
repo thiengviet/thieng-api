@@ -1,5 +1,4 @@
 var properties = global.properties;
-var configs = global.configs;
 var googleJS = require('../utils/google');
 var facebookJS = require('../utils/facebook');
 var thiengJS = require('../utils/thieng');

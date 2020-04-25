@@ -7,6 +7,7 @@ var configs = {};
  * Development configurations
  */
 configs.development = {
+  // MongoDB
   MONGO_HOST: 'mongodb://localhost/thieng_dev',
   MONGO_CONNECT_OPTION: {
     useCreateIndex: true,
@@ -15,6 +16,9 @@ configs.development = {
     useFindAndModify: false,
   },
   MONGO_DEBUG_MODE: false,
+  // GraphQL
+  GRAPHIQL: true,
+  // Common
   LIMIT_DEFAULT: 5,
   PAGE_DEFAULT: 1
 };
@@ -23,6 +27,7 @@ configs.development = {
  * Development configurations
  */
 configs.staging = {
+  // MongoDB
   MONGO_HOST: 'mongodb://localhost/thieng_stag',
   MONGO_CONNECT_OPTION: {
     useCreateIndex: true,
@@ -31,6 +36,9 @@ configs.staging = {
     useFindAndModify: false,
   },
   MONGO_DEBUG_MODE: false,
+  // GraphQL
+  GRAPHIQL: true,
+  // Common
   LIMIT_DEFAULT: 5,
   PAGE_DEFAULT: 1
 };
@@ -39,6 +47,7 @@ configs.staging = {
  * Production configurations
  */
 configs.production = {
+  // MongoDB
   MONGO_HOST: 'mongodb://localhost/thieng_prod',
   MONGO_CONNECT_OPTION: {
     useCreateIndex: true,
@@ -47,6 +56,9 @@ configs.production = {
     useFindAndModify: false,
   },
   MONGO_DEBUG_MODE: true,
+  // GraphQL
+  GRAPHIQL: true,
+  // Common
   LIMIT_DEFAULT: 5,
   PAGE_DEFAULT: 1
 };
