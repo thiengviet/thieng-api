@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var cors = require('cors');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var propertiesReader = require('properties-reader');
 
 
 const env = process.env.NODE_ENV || 'development';
@@ -43,12 +42,6 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-/**
- * Status code and message error
- */
-var properties = propertiesReader('./properties.file');
-global.properties = function (code) { return JSON.parse(properties.get(code)); }
 
 /**
  * Router

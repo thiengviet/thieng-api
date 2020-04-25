@@ -1,3 +1,3 @@
-var HeroGraph = require('./hero.graph');
+var UserGraph = require('./user.graph');
 
-module.exports = { HeroGraph }
+module.exports = { UserGraph }

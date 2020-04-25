@@ -2,27 +2,19 @@ var express = require('express');
 var router = express.Router();
 
 /**
- * Controllers & Graphs
+ * Middlewares & Graphs
  */
-var { auth, user } = require('../controllers');
-var { HeroGraph } = require('../graphs');
+var { AuthMiddleware, UserMiddleware } = require('../middlewares');
+var { UserGraph } = require('../graphs');
 
 
 
 // Authentication
-router.get('/authentication', auth.oauthToken, user.syncUser, auth.generateToken);
+router.get('/authentication', AuthMiddleware.oauthToken, UserMiddleware.syncUser, AuthMiddleware.generateToken);
 
 // User
-router.get('/user', auth.bearerToken, user.getUser);
+router.use('/user', AuthMiddleware.bearerToken, UserGraph);
 
-// Hero
-router.use('/hero', (req, res, next) => {
-  req.auth = {
-    email: 'tphanson@gmail.com',
-    token: '1234567'
-  }
-  return next();
-}, HeroGraph);
 
 /**
  * Module exports
