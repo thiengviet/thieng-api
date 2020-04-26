@@ -10,6 +10,8 @@ var User = new mongoose.Schema({
   email: { type: String, required: true },
   displayname: { type: String },
   avatar: { type: String },
+  panel: { type: String },
+  description: { type: String },
 });
 
 /**

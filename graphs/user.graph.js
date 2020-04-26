@@ -5,10 +5,6 @@ var { buildSchema } = require('graphql');
 var { user } = require('../controllers');
 
 
-const rootValue = {
-  getUser: user.getUser,
-};
-
 const schema = buildSchema(`
   type Query {
     getUser(userId: String!): User!
@@ -19,8 +15,14 @@ const schema = buildSchema(`
     email: String,
     displayname: String,
     avatar: String,
+    panel: String,
+    description: String,
   }
 `);
+
+const rootValue = {
+  getUser: user.getUser,
+};
 
 module.exports = graphqlHTTP({
   schema,
