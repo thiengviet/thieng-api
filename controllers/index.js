@@ -1,3 +1,4 @@
+var auth = require('./auth.controller');
 var user = require('./user.controller');
 
-module.exports = { user }
+module.exports = { auth, user }
