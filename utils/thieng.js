@@ -1,5 +1,4 @@
 var configs = global.configs;
-var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 
 /**
@@ -22,13 +21,5 @@ thiengJS.verifyToken = function (token) {
     });
   });
 }
-
-thiengJS.generateUserId = function (origin, email) {
-  if (!origin || !email) return null;
-  const hash = crypto.createHash('sha256');
-  hash.update([origin, email].join('/'));
-  return hash.digest('hex');
-}
-
 
 module.exports = thiengJS;

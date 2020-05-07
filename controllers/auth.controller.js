@@ -20,11 +20,7 @@ module.exports = {
 
     if (service == 'google') {
       return googleJS.verifyToken(accessToken).then(re => {
-        const userId = thiengJS.generateUserId('google', re.email);
-        if (!userId) return next('Invalid token.');
-
         req.auth = {
-          userId: userId,
           service: 'thieng',
           origin: 'google',
           email: re.email,
@@ -40,11 +36,7 @@ module.exports = {
 
     if (service == 'facebook') {
       return facebookJS.verifyToken(accessToken).then(re => {
-        const userId = thiengJS.generateUserId('facebook', re.email);
-        if (!userId) return next('Invalid token.');
-
         req.auth = {
-          userId: userId,
           service: 'thieng',
           origin: 'facebook',
           email: re.email,
