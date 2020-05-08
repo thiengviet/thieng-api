@@ -42,13 +42,13 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 /**
  * Router
  */
 
 // Main APIs
 var api = require('./routes/api');
+app.use('/static', express.static('public'));
 app.use('/', api);
 
 // Error handler

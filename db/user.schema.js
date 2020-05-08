@@ -5,13 +5,13 @@ var timestamps = require('mongoose-timestamp');
  * Schema
  */
 var User = new mongoose.Schema({
-  userId: { type: String, unique: true, required: true },
   service: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   displayname: { type: String },
   avatar: { type: String },
   panel: { type: String },
   description: { type: String },
+  role: { type: String, enum: ['root', 'admin', 'user'], default: 'user' }
 });
 
 /**

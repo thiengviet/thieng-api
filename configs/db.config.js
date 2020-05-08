@@ -20,7 +20,14 @@ configs.development = {
   GRAPHIQL: true,
   // Common
   LIMIT_DEFAULT: 5,
-  PAGE_DEFAULT: 1
+  PAGE_DEFAULT: 1,
+  // Uploader path
+  UPLOADER_PATH: {
+    image: 'public/images'
+  },
+  LIMIT_FILE_SIZE: {
+    image: 10 * 1024 * 1024
+  },
 };
 
 /**
@@ -40,7 +47,14 @@ configs.staging = {
   GRAPHIQL: true,
   // Common
   LIMIT_DEFAULT: 5,
-  PAGE_DEFAULT: 1
+  PAGE_DEFAULT: 1,
+  // Uploader path
+  UPLOADER_PATH: {
+    image: 'public/images'
+  },
+  LIMIT_FILE_SIZE: {
+    image: 10 * 1024 * 1024
+  },
 };
 
 /**
@@ -60,7 +74,14 @@ configs.production = {
   GRAPHIQL: true,
   // Common
   LIMIT_DEFAULT: 5,
-  PAGE_DEFAULT: 1
+  PAGE_DEFAULT: 1,
+  // Uploader path
+  UPLOADER_PATH: {
+    image: 'public/images'
+  },
+  LIMIT_FILE_SIZE: {
+    image: 10 * 1024 * 1024
+  },
 };
 
 /**

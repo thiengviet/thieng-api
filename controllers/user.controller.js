@@ -1,4 +1,4 @@
-var configs = global.configs;
+// var configs = global.configs;
 
 var db = require('../db');
 
@@ -13,18 +13,16 @@ module.exports = {
    */
   syncUser: function (req, res, next) {
     const auth = req.auth;
-    if (!auth) return next('Unauthenticated request.');
-
     const user = {
-      userId: auth.userId,
       service: auth.origin,
       email: auth.email,
       displayname: auth.displayname,
       avatar: auth.avatar,
+      role: 'user' // Default value doesn't work with upsert
     }
 
     db.User.findOneAndUpdate(
-      { userId: user.userId },
+      { email: user.email },
       { $set: user },
       { upsert: true, new: true },
       function (er, re) {
@@ -43,10 +41,10 @@ module.exports = {
    */
   getUser: function (req, res, next) {
     const auth = req.auth;
-    if (!auth) return next('Invalid inputs.');
+    if (!auth) return next('Invalid inputs');
 
-    db.User.findOne({ userId: auth.userId }, function (er, re) {
-      if (er) return next('Databse error.');
+    db.User.findOne({ email: auth.email }, function (er, re) {
+      if (er) return next('Databse error');
 
       return res.send({ status: 'OK', data: re });
     });
