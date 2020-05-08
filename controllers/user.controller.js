@@ -28,6 +28,7 @@ module.exports = {
       function (er, re) {
         if (er) return next(er);
 
+        req.auth._id = re._id;
         return next();
       });
   },

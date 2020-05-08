@@ -15,7 +15,7 @@ module.exports = {
     const auth = req.auth;
     const item = req.body.item;
 
-    if (!item) return next('Invalid inputs.');
+    if (!item) return next('Invalid inputs');
 
     let newItem = new db.Item({
       ...item,

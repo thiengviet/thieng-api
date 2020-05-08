@@ -14,7 +14,13 @@ module.exports = {
   middelware: function (type) {
     return multer({
       limits: {
+        fieldNameSize: 1024,
         fileSize: configs.db.LIMIT_FILE_SIZE[type]
+      },
+      fileFilter: function (req, file, callback) {
+        if (!configs.db.FILE_TYPES[type].includes(file.mimetype))
+          return callback('Unsupported file type', false);
+        return callback(null, true);
       },
       storage: multer.diskStorage({
         destination: function (req, file, callback) {
@@ -28,15 +34,29 @@ module.exports = {
   },
 
   /**
-   * Upload images
-   * @function uploadImage
+   * Save info
+   * @function saveInfo
    * @param {*} req
    * @param {*} res
    * @param {*} next
    */
-  uploadImage: function (req, res, next) {
-    console.log(req.file)
-    console.log(req.body)
-    return res.send({ status: 'OK', data: req.body });
+  saveInfo: function (req, res, next) {
+    const auth = req.auth;
+    const file = req.file;
+    if (!file) return next('Invalid inputs');
+
+    let newFile = new db.File({
+      name: file.filename,
+      type: file.mimetype,
+      source: 'http://localhost:3001/' + file.destination + '/' + file.filename,
+      userId: auth._id,
+    });
+
+    newFile.save(function (er, re) {
+      console.log(er)
+      if (er) return next('Database error');
+
+      return res.send({ status: 'OK', data: re });
+    });
   }
 }

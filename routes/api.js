@@ -11,10 +11,11 @@ var { auth, user, uploader } = require('../controllers');
 router.get('/authentication', auth.oauthToken, user.syncUser, auth.generateToken);
 
 // User
-router.get('/user', auth.oauthToken, user.getUser);
+router.get('/user', auth.bearerToken, user.getUser);
 
 // Uploader
-router.post('/upload/image', uploader.middelware('image'), uploader.uploadImage);
+router.post('/upload/image', auth.bearerToken, uploader.middelware('image'), uploader.saveInfo);
+router.post('/upload/video', auth.bearerToken, uploader.middelware('video'), uploader.saveInfo);
 
 /**
  * Module exports

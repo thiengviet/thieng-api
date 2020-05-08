@@ -14,9 +14,9 @@ module.exports = {
    */
   oauthToken: function (req, res, next) {
     const { authorization } = req.headers;
-    if (!authorization || typeof authorization != 'string') return next('Unauthenticated request.');
+    if (!authorization || typeof authorization != 'string') return next('Unauthenticated request');
     const [service, accessToken] = authorization.split(' ');
-    if (!service || !accessToken) return next('Unauthenticated request.');
+    if (!service || !accessToken) return next('Unauthenticated request');
 
     if (service == 'google') {
       return googleJS.verifyToken(accessToken).then(re => {
@@ -50,7 +50,7 @@ module.exports = {
       });
     }
 
-    return next('Unsupported service.');
+    return next('Unsupported service');
   },
 
   /**
@@ -62,13 +62,13 @@ module.exports = {
    */
   bearerToken: function (req, res, next) {
     const { authorization } = req.headers;
-    if (!authorization || typeof authorization != 'string') return next('Unauthenticated request.');
+    if (!authorization || typeof authorization != 'string') return next('Unauthenticated request');
     const [service, accessToken] = authorization.split(' ');
-    if (service != 'thieng') return next('Unsupported service.');
-    if (!accessToken) return next('Invalid token.');
+    if (service != 'thieng') return next('Unsupported service');
+    if (!accessToken) return next('Invalid token');
 
     thiengJS.verifyToken(accessToken).then(re => {
-      if (!re) return next('Invalid token.');
+      if (!re) return next('Invalid token');
       req.auth = re;
       return next();
     }).catch(er => {
@@ -85,7 +85,7 @@ module.exports = {
    */
   generateToken: function (req, res, next) {
     const data = req.auth;
-    if (!data || typeof data != 'object') return next('Unauthenticated request.');
+    if (!data || typeof data != 'object') return next('Unauthenticated request');
     const token = thiengJS.generateToken(data);
     const re = {
       ...data,

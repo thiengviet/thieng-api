@@ -48,7 +48,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Main APIs
 var api = require('./routes/api');
-app.use('/static', express.static('public'));
+app.use('/public', express.static('public'));
 app.use('/', api);
 
 // Error handler
