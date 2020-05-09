@@ -15,9 +15,11 @@ module.exports = {
     return multer({
       limits: {
         fieldNameSize: 1024,
-        fileSize: configs.db.LIMIT_FILE_SIZE[type]
+        fileSize: configs.db.LIMIT_FILE_SIZE[type],
       },
       fileFilter: function (req, file, callback) {
+        if (!Object.keys(configs.db.FILE_TYPES).includes(type))
+          return callback('Unsupported file type', false);
         if (!configs.db.FILE_TYPES[type].includes(file.mimetype))
           return callback('Unsupported file type', false);
         return callback(null, true);
@@ -53,7 +55,6 @@ module.exports = {
     });
 
     newFile.save(function (er, re) {
-      console.log(er)
       if (er) return next('Database error');
 
       return res.send({ status: 'OK', data: re });

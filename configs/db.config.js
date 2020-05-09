@@ -60,8 +60,8 @@ configs.staging = {
     video: 'public/videos',
   },
   LIMIT_FILE_SIZE: {
-    image: 10 * 1024 * 1024,
-    video: 100 * 1024 * 1024,
+    image: 5 * 1024 * 1024,
+    video: 50 * 1024 * 1024,
   },
   FILE_TYPES: {
     image: ['image/jpg', 'image/jpeg', 'image/png'],
