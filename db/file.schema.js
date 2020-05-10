@@ -9,6 +9,7 @@ var File = new mongoose.Schema({
   type: { type: String, required: true },
   source: { type: String, required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  metadata: { type: Object, default: {} }
 });
 
 /**

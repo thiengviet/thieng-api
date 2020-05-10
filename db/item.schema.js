@@ -11,7 +11,8 @@ var Item = new mongoose.Schema({
   price: { type: Number },
   tags: { type: Array, default: [] },
   category: { type: String, default: 'other' },
-  images: { type: Array, default: [] },
+  thumbnail: { type: mongoose.Schema.Types.ObjectId },
+  files: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
   commentIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   status: { type: String, enum: ['new', 'public', 'archived'], default: 'new' }

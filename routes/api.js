@@ -4,7 +4,7 @@ var router = express.Router();
 /**
  * Middlewares & Graphs
  */
-var { auth, user, uploader } = require('../controllers');
+var { auth, user, uploader, item } = require('../controllers');
 
 
 // Authentication
@@ -12,6 +12,9 @@ router.get('/authentication', auth.oauthToken, user.syncUser, auth.generateToken
 
 // User
 router.get('/user', auth.bearerToken, user.getUser);
+
+// Item
+router.post('/item', auth.bearerToken, item.addItem);
 
 // Uploader
 router.post('/upload/image', auth.bearerToken, uploader.middelware('image'), uploader.saveInfo);
