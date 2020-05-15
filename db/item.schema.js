@@ -5,6 +5,7 @@ var timestamps = require('mongoose-timestamp');
  * Schema
  */
 var Item = new mongoose.Schema({
+  // Info
   name: { type: String },
   description1: { type: String },
   description2: { type: String },
@@ -13,9 +14,12 @@ var Item = new mongoose.Schema({
   category: { type: String, default: 'other' },
   thumbnail: { type: mongoose.Schema.Types.ObjectId },
   files: { type: [mongoose.Schema.Types.ObjectId], default: [] },
+  // Relationship
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
   commentIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
-  status: { type: String, enum: ['new', 'public', 'archived'], default: 'new' }
+  // Flags
+  status: { type: String, enum: ['creating', 'selling', 'archived'], default: 'creating' },
+  mode: { type: String, enum: ['public', 'friend', 'private'], default: 'public' }
 });
 
 /**

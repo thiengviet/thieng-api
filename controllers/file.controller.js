@@ -36,6 +36,24 @@ module.exports = {
   },
 
   /**
+   * Get a file by id
+   * @function saveInfo
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  getFile: function (req, res, next) {
+    var auth = req.auth;
+    var _id = req.query._id;
+    if (!_id) return next('Invalid inputs');
+
+    db.File.findOne({ _id, userId: auth._id }, function (er, re) {
+      if (er) return next('Database error');
+      return res.send({ status: 'OK', data: re });
+    });
+  },
+
+  /**
    * Save info
    * @function saveInfo
    * @param {*} req
@@ -43,11 +61,11 @@ module.exports = {
    * @param {*} next
    */
   saveInfo: function (req, res, next) {
-    const auth = req.auth;
-    const file = req.file;
+    var auth = req.auth;
+    var file = req.file;
     if (!file) return next('Invalid inputs');
 
-    let newFile = new db.File({
+    var newFile = new db.File({
       name: file.filename,
       type: file.mimetype,
       source: 'http://localhost:3001/' + file.destination + '/' + file.filename,
@@ -56,7 +74,6 @@ module.exports = {
 
     newFile.save(function (er, re) {
       if (er) return next('Database error');
-
       return res.send({ status: 'OK', data: re });
     });
   }

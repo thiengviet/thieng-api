@@ -12,8 +12,8 @@ module.exports = {
    * @param {*} next
    */
   syncUser: function (req, res, next) {
-    const auth = req.auth;
-    const user = {
+    var auth = req.auth;
+    var user = {
       service: auth.origin,
       email: auth.email,
       displayname: auth.displayname,
@@ -41,7 +41,7 @@ module.exports = {
    * @param {*} next
    */
   getUser: function (req, res, next) {
-    const auth = req.auth;
+    var auth = req.auth;
     if (!auth) return next('Invalid inputs');
 
     db.User.findOne({ email: auth.email }, function (er, re) {
