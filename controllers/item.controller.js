@@ -1,6 +1,7 @@
 var configs = global.configs;
 
 var db = require('../db');
+var utils = require('../helpers/utils');
 
 module.exports = {
 
@@ -12,8 +13,8 @@ module.exports = {
    * @param {*} next
    */
   getItem: function (req, res, next) {
-    var auth = req.auth;
-    var { _id } = req.query;
+    const auth = req.auth;
+    const { _id } = req.query;
 
     return db.Item.findOne({ _id, userId: auth._id }, function (er, re) {
       if (er) return next('Databse error');
@@ -29,15 +30,22 @@ module.exports = {
    * @param {*} next
    */
   getItems: function (req, res, next) {
-    const { condition } = req.query;
+    const auth = req.auth;
+    let { condition } = req.query;
     const limit = Number(req.query.limit) || configs.db.LIMIT_DEFAULT;
     const page = Number(req.query.page) || configs.db.PAGE_DEFAULT;
 
+    condition = utils.parseJSON(condition) || {}
+    if (!condition.mode) condition.mode = 'public';
+    if (condition.mode == 'private') condition.userId = auth && auth._id;
+    if (condition.mode == 'private' && !condition.userId) return req.next('No permission');
+
     return db.Item.aggregate([
-      { $match: { ...condition, mode: 'public' } },
+      { $match: condition },
       { $sort: { createdAt: -1 } },
       { $skip: limit * page },
-      { $limit: limit }
+      { $limit: limit },
+      { $project: { _id: 1 } }
     ]).exec(function (er, re) {
       if (er) return next('Databse error');
       return res.send({ status: 'OK', data: re, pagination: { limit, page } });

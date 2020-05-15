@@ -1,6 +1,6 @@
-var googleJS = require('../utils/google');
-var facebookJS = require('../utils/facebook');
-var thiengJS = require('../utils/thieng');
+var googleJS = require('../helpers/google');
+var facebookJS = require('../helpers/facebook');
+var thiengJS = require('../helpers/thieng');
 
 
 module.exports = {
