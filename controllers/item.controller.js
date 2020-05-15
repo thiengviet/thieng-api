@@ -1,4 +1,4 @@
-// var configs = global.configs;
+var configs = global.configs;
 
 var db = require('../db');
 
@@ -13,15 +13,37 @@ module.exports = {
    */
   getItem: function (req, res, next) {
     var auth = req.auth;
-    var { condition } = req.body;
+    var { _id } = req.query;
 
-    return db.Item.find(
-      { ...condition, userId: auth._id },
-      function (er, re) {
-        if (er) return next('Databse error');
-        return res.send({ status: 'OK', data: re });
-      });
+    return db.Item.findOne({ _id, userId: auth._id }, function (er, re) {
+      if (er) return next('Databse error');
+      return res.send({ status: 'OK', data: re });
+    });
   },
+
+  /**
+   * Get item(s)
+   * @function getItems
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  getItems: function (req, res, next) {
+    const { condition } = req.query;
+    const limit = Number(req.query.limit) || configs.db.LIMIT_DEFAULT;
+    const page = Number(req.query.page) || configs.db.PAGE_DEFAULT;
+
+    return db.Item.aggregate([
+      { $match: { ...condition, mode: 'public' } },
+      { $sort: { createdAt: -1 } },
+      { $skip: limit * page },
+      { $limit: limit }
+    ]).exec(function (er, re) {
+      if (er) return next('Databse error');
+      return res.send({ status: 'OK', data: re, pagination: { limit, page } });
+    });
+  },
+
 
   /**
    * Add a new item

@@ -44,10 +44,10 @@ module.exports = {
    */
   getFile: function (req, res, next) {
     var auth = req.auth;
-    var _id = req.query._id;
+    var { _id } = req.query;
     if (!_id) return next('Invalid inputs');
 
-    db.File.findOne({ _id, userId: auth._id }, function (er, re) {
+    return db.File.findOne({ _id, userId: auth._id }, function (er, re) {
       if (er) return next('Database error');
       return res.send({ status: 'OK', data: re });
     });

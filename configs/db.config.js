@@ -20,7 +20,7 @@ configs.development = {
   GRAPHIQL: true,
   // Common
   LIMIT_DEFAULT: 5,
-  PAGE_DEFAULT: 1,
+  PAGE_DEFAULT: 0,
   // Uploader path
   UPLOADER_PATH: {
     image: 'public/images',
@@ -53,7 +53,7 @@ configs.staging = {
   GRAPHIQL: true,
   // Common
   LIMIT_DEFAULT: 5,
-  PAGE_DEFAULT: 1,
+  PAGE_DEFAULT: 0,
   // Uploader path
   UPLOADER_PATH: {
     image: 'public/images',
@@ -86,7 +86,7 @@ configs.production = {
   GRAPHIQL: true,
   // Common
   LIMIT_DEFAULT: 5,
-  PAGE_DEFAULT: 1,
+  PAGE_DEFAULT: 0,
   // Uploader path
   UPLOADER_PATH: {
     image: 'public/images',

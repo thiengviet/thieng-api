@@ -18,6 +18,7 @@ router.get('/item', auth.bearerToken, item.getItem);
 router.post('/item', auth.bearerToken, item.addItem);
 router.put('/item', auth.bearerToken, item.updateItem);
 router.delete('/item', auth.bearerToken, item.deleteItem);
+router.get('/items', item.getItems);
 
 // Files
 router.get('/file', auth.bearerToken, file.getFile);
