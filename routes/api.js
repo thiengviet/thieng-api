@@ -4,7 +4,10 @@ var router = express.Router();
 /**
  * Middlewares & Graphs
  */
-var { auth, user, file, item } = require('../controllers');
+var {
+  auth, user, file, item,
+  blueprint,
+} = require('../controllers');
 
 
 // Authentication (core)
@@ -19,7 +22,15 @@ router.post('/item', auth.bearerToken, item.addItem);
 router.put('/item', auth.bearerToken, item.updateItem);
 router.delete('/item', auth.bearerToken, item.deleteItem);
 // Item (advance)
-router.get('/items', item.getItems);
+router.get('/social/items', item.getItems);
+
+// Blueprint (core)
+router.get('/blueprint', auth.bearerToken, blueprint.getBlueprint);
+router.post('/blueprint', auth.bearerToken, blueprint.addBlueprint);
+router.put('/blueprint', auth.bearerToken, blueprint.updateBlueprint);
+router.delete('/blueprint', auth.bearerToken, blueprint.deleteBlueprint);
+// Blueprint (advance)
+router.get('/social/blueprint', blueprint.getBlueprint);
 
 // Files (core)
 router.get('/file', auth.bearerToken, file.getFile);

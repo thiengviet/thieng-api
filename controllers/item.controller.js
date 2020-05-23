@@ -15,11 +15,14 @@ module.exports = {
   getItem: function (req, res, next) {
     const auth = req.auth;
     const { _id } = req.query;
+    if (!_id) return next('Invalid inputs');
 
-    return db.Item.findOne({ _id, userId: auth._id }, function (er, re) {
-      if (er) return next('Databse error');
-      return res.send({ status: 'OK', data: re });
-    });
+    return db.Item.findOne(
+      { _id, userId: auth._id },
+      function (er, re) {
+        if (er) return next('Databse error');
+        return res.send({ status: 'OK', data: re });
+      });
   },
 
   /**
@@ -95,7 +98,7 @@ module.exports = {
 
   /**
    * Update an item
-   * @function deleteItem
+   * @function updateItem
    * @param {*} req
    * @param {*} res
    * @param {*} next
@@ -127,9 +130,11 @@ module.exports = {
     var { item } = req.body;
     if (!item) return next('Invalid inputs');
 
-    return db.Item.findOneAndDelete({ _id: item._id, userId: auth._id }, function (er, re) {
-      if (er) return next('Databse error');
-      return res.send({ status: 'OK', data: re });
-    });
+    return db.Item.findOneAndDelete(
+      { _id: item._id, userId: auth._id },
+      function (er, re) {
+        if (er) return next('Databse error');
+        return res.send({ status: 'OK', data: re });
+      });
   },
 }
