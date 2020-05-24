@@ -1,6 +1,8 @@
-// var configs = global.configs;
+var configs = global.configs;
 
 var db = require('../db');
+var utils = require('../helpers/utils');
+
 
 module.exports = {
 
@@ -48,6 +50,32 @@ module.exports = {
       if (er) return next('Databse error');
 
       return res.send({ status: 'OK', data: re });
+    });
+  },
+
+  /**
+   * Get users info
+   * @function getUsers
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  getUsers: function (req, res, next) {
+    let { condition } = req.query;
+    const limit = Number(req.query.limit) || configs.db.LIMIT_DEFAULT;
+    const page = Number(req.query.page) || configs.db.PAGE_DEFAULT;
+
+    condition = utils.parseJSON(condition) || {}
+
+    return db.User.aggregate([
+      { $match: condition },
+      { $sort: { createdAt: -1 } },
+      { $skip: limit * page },
+      { $limit: limit },
+      { $project: { _id: 1, avatar: 1, displayname: 1, panel: 1 } }
+    ]).exec(function (er, re) {
+      if (er) return next('Databse error');
+      return res.send({ status: 'OK', data: re, pagination: { limit, page } });
     });
   }
 }

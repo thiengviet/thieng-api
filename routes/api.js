@@ -6,7 +6,7 @@ var router = express.Router();
  */
 var {
   auth, user, file, item,
-  blueprint,
+  project,
 } = require('../controllers');
 
 
@@ -15,6 +15,8 @@ router.get('/authentication', auth.oauthToken, user.syncUser, auth.generateToken
 
 // User (core)
 router.get('/user', auth.bearerToken, user.getUser);
+// User (advance)
+router.get('/social/users', user.getUsers);
 
 // Item (core)
 router.get('/item', auth.bearerToken, item.getItem);
@@ -24,13 +26,14 @@ router.delete('/item', auth.bearerToken, item.deleteItem);
 // Item (advance)
 router.get('/social/items', item.getItems);
 
-// Blueprint (core)
-router.get('/blueprint', auth.bearerToken, blueprint.getBlueprint);
-router.post('/blueprint', auth.bearerToken, blueprint.addBlueprint);
-router.put('/blueprint', auth.bearerToken, blueprint.updateBlueprint);
-router.delete('/blueprint', auth.bearerToken, blueprint.deleteBlueprint);
-// Blueprint (advance)
-router.get('/social/blueprint', blueprint.getBlueprint);
+// Project (core)
+router.get('/project', auth.bearerToken, project.getProject);
+router.post('/project', auth.bearerToken, project.addProject);
+router.put('/project', auth.bearerToken, project.updateProject);
+router.delete('/project', auth.bearerToken, project.deleteProject);
+// Project (advance)
+router.get('/social/project', project.getProject);
+router.get('/social/projects', project.getProjects);
 
 // Files (core)
 router.get('/file', auth.bearerToken, file.getFile);
