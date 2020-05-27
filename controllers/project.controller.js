@@ -19,7 +19,7 @@ module.exports = {
     if (!_id) return next('Invalid inputs');
 
     return db.Project.findOne(
-      { _id, $or: [{ mode: 'public' }, { userId: auth._id }] },
+      { _id, $or: [{ status: 'public' }, { userId: auth._id }] },
       function (er, re) {
         if (er) return next('Databse error');
         return res.send({ status: 'OK', data: re });
@@ -35,14 +35,9 @@ module.exports = {
    */
   getProjects: function (req, res, next) {
     const auth = req.auth;
-    let { condition } = req.query;
+    const condition = utils.parseJSON(req.query.condition) || {}
     const limit = Number(req.query.limit) || configs.db.LIMIT_DEFAULT;
     const page = Number(req.query.page) || configs.db.PAGE_DEFAULT;
-
-    condition = utils.parseJSON(condition) || {}
-    if (!condition.mode) condition.mode = 'public';
-    if (condition.mode == 'private') condition.userId = auth && auth._id;
-    if (condition.mode == 'private' && !condition.userId) return req.next('No permission');
 
     return db.Project.aggregate([
       { $match: condition },
@@ -65,7 +60,7 @@ module.exports = {
    */
   addProject: function (req, res, next) {
     const auth = req.auth;
-    var { project } = req.body;
+    const { project } = req.body;
     if (!project) return next('Invalid inputs');
 
     var newProject = new db.Project({
@@ -86,8 +81,8 @@ module.exports = {
    * @param {*} next
    */
   updateProject: function (req, res, next) {
-    var auth = req.auth;
-    var { project } = req.body;
+    const auth = req.auth;
+    const { project } = req.body;
     if (!project) return next('Invalid inputs');
 
     return db.Project.findOneAndUpdate(
@@ -108,8 +103,8 @@ module.exports = {
    * @param {*} next
    */
   deleteProject: function (req, res, next) {
-    var auth = req.auth;
-    var { project } = req.body;
+    const auth = req.auth;
+    const { project } = req.body;
     if (!project) return next('Invalid inputs');
 
     return db.Project.findOneAndDelete(

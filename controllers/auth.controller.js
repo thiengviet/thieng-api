@@ -56,24 +56,30 @@ module.exports = {
   /**
    * Verify thieng's token
    * @function bearerToken
-   * @param {*} req
-   * @param {*} res
-   * @param {*} next
+   * @param {*} loose - default false
+   * If loose is false, the auth process works without exceptions 
+   * even thought invalid access token, however, req.auth will be null.
+   * Else, vice versa.
    */
-  bearerToken: function (req, res, next) {
-    const { authorization } = req.headers;
-    if (!authorization || typeof authorization != 'string') return next('Unauthenticated request');
-    const [service, accessToken] = authorization.split(' ');
-    if (service != 'thieng') return next('Unsupported service');
-    if (!accessToken) return next('Invalid token');
+  bearerToken: function (loose = false) {
+    return function (req, res, next) {
+      let { authorization } = req.headers;
+      if (!authorization || typeof authorization != 'string') {
+        if (!loose) return next('Unauthenticated request');
+        else authorization = 'thieng fake-token';
+      }
+      const [service, accessToken] = authorization.split(' ');
+      if (service != 'thieng') return next('Unsupported service');
+      if (!accessToken) return next('Invalid token');
 
-    thiengJS.verifyToken(accessToken).then(re => {
-      if (!re) return next('Invalid token');
-      req.auth = re;
-      return next();
-    }).catch(er => {
-      return next(er);
-    });
+      thiengJS.verifyToken(accessToken).then(re => {
+        if (!re && !loose) return next('Invalid token');
+        if (re) req.auth = re;
+        return next();
+      }).catch(er => {
+        return next(er);
+      });
+    }
   },
 
   /**

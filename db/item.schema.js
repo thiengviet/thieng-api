@@ -19,7 +19,6 @@ var Item = new mongoose.Schema({
   commentIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   // Flags
   status: { type: String, enum: ['creating', 'selling', 'archived'], default: 'creating' },
-  mode: { type: String, enum: ['public', 'private'], default: 'public' },
 });
 
 /**

@@ -12,7 +12,7 @@ var Project = new mongoose.Schema({
   likeUserIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   dislikeUserIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
-  mode: { type: String, enum: ['public', 'private'], default: 'public' }
+  status: { type: String, enum: ['public', 'private'], default: 'public' }
 });
 
 /**

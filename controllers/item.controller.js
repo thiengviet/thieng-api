@@ -19,7 +19,7 @@ module.exports = {
     if (!_id) return next('Invalid inputs');
 
     return db.Item.findOne(
-      { _id, userId: auth._id },
+      { _id, $or: [{ status: 'selling' }, { userId: auth._id }] },
       function (er, re) {
         if (er) return next('Databse error');
         return res.send({ status: 'OK', data: re });
@@ -34,15 +34,9 @@ module.exports = {
    * @param {*} next
    */
   getItems: function (req, res, next) {
-    const auth = req.auth;
-    let { condition } = req.query;
+    const condition = utils.parseJSON(req.query.condition) || {}
     const limit = Number(req.query.limit) || configs.db.LIMIT_DEFAULT;
     const page = Number(req.query.page) || configs.db.PAGE_DEFAULT;
-
-    condition = utils.parseJSON(condition) || {}
-    if (!condition.mode) condition.mode = 'public';
-    if (condition.mode == 'private') condition.userId = auth && auth._id;
-    if (condition.mode == 'private' && !condition.userId) return req.next('No permission');
 
     return db.Item.aggregate([
       { $match: condition },
@@ -65,8 +59,8 @@ module.exports = {
    * @param {*} next
    */
   addItem: function (req, res, next) {
-    var auth = req.auth;
-    var { item } = req.body;
+    const auth = req.auth;
+    const { item } = req.body;
     if (!item) return next('Invalid inputs');
 
     db.Item.findOne({ _id: item._id }, function (er, existing) {
@@ -105,8 +99,8 @@ module.exports = {
    * @param {*} next
    */
   updateItem: function (req, res, next) {
-    var auth = req.auth;
-    var { item } = req.body;
+    const auth = req.auth;
+    const { item } = req.body;
     if (!item) return next('Invalid inputs');
 
     return db.Item.findOneAndUpdate(
@@ -127,8 +121,8 @@ module.exports = {
    * @param {*} next
    */
   deleteItem: function (req, res, next) {
-    var auth = req.auth;
-    var { item } = req.body;
+    const auth = req.auth;
+    const { item } = req.body;
     if (!item) return next('Invalid inputs');
 
     return db.Item.findOneAndDelete(

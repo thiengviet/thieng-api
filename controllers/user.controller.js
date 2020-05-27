@@ -43,14 +43,16 @@ module.exports = {
    * @param {*} next
    */
   getUser: function (req, res, next) {
-    var auth = req.auth;
-    if (!auth) return next('Invalid inputs');
+    const { _id } = req.query;
+    if (!_id) return next('Invalid inputs');
 
-    db.User.findOne({ email: auth.email }, function (er, re) {
-      if (er) return next('Databse error');
-
-      return res.send({ status: 'OK', data: re });
-    });
+    return db.User.findOne(
+      _id,
+      { projection: { avatar: 1, displayname: 1, panel: 1 } },
+      function (er, re) {
+        if (er) return next('Databse error');
+        return res.send({ status: 'OK', data: re });
+      });
   },
 
   /**
@@ -61,18 +63,16 @@ module.exports = {
    * @param {*} next
    */
   getUsers: function (req, res, next) {
-    let { condition } = req.query;
+    const condition = utils.parseJSON(req.query.condition) || {}
     const limit = Number(req.query.limit) || configs.db.LIMIT_DEFAULT;
     const page = Number(req.query.page) || configs.db.PAGE_DEFAULT;
-
-    condition = utils.parseJSON(condition) || {}
 
     return db.User.aggregate([
       { $match: condition },
       { $sort: { createdAt: -1 } },
       { $skip: limit * page },
       { $limit: limit },
-      { $project: { _id: 1, avatar: 1, displayname: 1, panel: 1 } }
+      { $project: { _id: 1 } }
     ]).exec(function (er, re) {
       if (er) return next('Databse error');
       return res.send({ status: 'OK', data: re, pagination: { limit, page } });
