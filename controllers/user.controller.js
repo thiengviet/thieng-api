@@ -47,10 +47,10 @@ module.exports = {
     if (!_id) return next('Invalid inputs');
 
     return db.User.findOne(
-      _id,
-      { projection: { avatar: 1, displayname: 1, panel: 1 } },
+      { _id },
+      '_id avatar displayname panel',
       function (er, re) {
-        if (er) return next('Databse error');
+        if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
       });
   },
@@ -74,7 +74,7 @@ module.exports = {
       { $limit: limit },
       { $project: { _id: 1 } }
     ]).exec(function (er, re) {
-      if (er) return next('Databse error');
+      if (er) return next('Database error');
       return res.send({ status: 'OK', data: re, pagination: { limit, page } });
     });
   }

@@ -21,7 +21,7 @@ module.exports = {
     return db.Item.findOne(
       { _id, $or: [{ status: 'selling' }, { userId: auth._id }] },
       function (er, re) {
-        if (er) return next('Databse error');
+        if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
       });
   },
@@ -45,7 +45,7 @@ module.exports = {
       { $limit: limit },
       { $project: { _id: 1 } }
     ]).exec(function (er, re) {
-      if (er) return next('Databse error');
+      if (er) return next('Database error');
       return res.send({ status: 'OK', data: re, pagination: { limit, page } });
     });
   },
@@ -64,7 +64,7 @@ module.exports = {
     if (!item) return next('Invalid inputs');
 
     db.Item.findOne({ _id: item._id }, function (er, existing) {
-      if (er) return next('Databse error');
+      if (er) return next('Database error');
 
       if (existing) {
         if (existing.status != 'new') return next('The item has been existing');
@@ -74,7 +74,7 @@ module.exports = {
           { item },
           { new: true },
           function (er, re) {
-            if (er) return next('Databse error');
+            if (er) return next('Database error');
             return res.send({ status: 'OK', data: re });
           });
       }
@@ -84,7 +84,7 @@ module.exports = {
           userId: auth._id,
         });
         return newItem.save(function (er, re) {
-          if (er) return next('Databse error');
+          if (er) return next('Database error');
           return res.send({ status: 'OK', data: re });
         });
       }
@@ -108,7 +108,7 @@ module.exports = {
       { ...item, userId: auth._id },
       { new: true },
       function (er, re) {
-        if (er) return next('Databse error');
+        if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
       });
   },
@@ -128,7 +128,7 @@ module.exports = {
     return db.Item.findOneAndDelete(
       { _id: item._id, userId: auth._id },
       function (er, re) {
-        if (er) return next('Databse error');
+        if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
       });
   },

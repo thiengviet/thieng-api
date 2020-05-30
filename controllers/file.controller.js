@@ -2,6 +2,7 @@ var configs = global.configs;
 var multer = require('multer');
 
 var db = require('../db');
+var utils = require('../helpers/utils');
 
 module.exports = {
 
@@ -63,6 +64,7 @@ module.exports = {
   saveInfo: function (req, res, next) {
     var auth = req.auth;
     var file = req.file;
+    var { metadata } = req.body;
     if (!file) return next('Invalid inputs');
 
     var newFile = new db.File({
@@ -70,6 +72,7 @@ module.exports = {
       type: file.mimetype,
       source: 'http://localhost:3001/' + file.destination + '/' + file.filename,
       userId: auth._id,
+      metadata: utils.parseJSON(metadata),
     });
 
     newFile.save(function (er, re) {

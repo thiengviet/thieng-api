@@ -21,7 +21,7 @@ module.exports = {
     return db.Project.findOne(
       { _id, $or: [{ status: 'public' }, { userId: auth._id }] },
       function (er, re) {
-        if (er) return next('Databse error');
+        if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
       });
   },
@@ -34,7 +34,6 @@ module.exports = {
    * @param {*} next
    */
   getProjects: function (req, res, next) {
-    const auth = req.auth;
     const condition = utils.parseJSON(req.query.condition) || {}
     const limit = Number(req.query.limit) || configs.db.LIMIT_DEFAULT;
     const page = Number(req.query.page) || configs.db.PAGE_DEFAULT;
@@ -46,7 +45,7 @@ module.exports = {
       { $limit: limit },
       { $project: { _id: 1 } }
     ]).exec(function (er, re) {
-      if (er) return next('Databse error');
+      if (er) return next('Database error');
       return res.send({ status: 'OK', data: re, pagination: { limit, page } });
     });
   },
@@ -68,7 +67,7 @@ module.exports = {
       userId: auth._id,
     });
     return newProject.save(function (er, re) {
-      if (er) return next('Databse error');
+      if (er) return next('Database error');
       return res.send({ status: 'OK', data: re });
     });
   },
@@ -90,7 +89,7 @@ module.exports = {
       { ...project, userId: auth._id },
       { new: true },
       function (er, re) {
-        if (er) return next('Databse error');
+        if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
       });
   },
@@ -110,7 +109,7 @@ module.exports = {
     return db.Project.findOneAndDelete(
       { _id: project._id, userId: auth._id },
       function (er, re) {
-        if (er) return next('Databse error');
+        if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
       });
   },
