@@ -34,9 +34,9 @@ module.exports = {
    * @param {*} next
    */
   getProjects: function (req, res, next) {
-    const condition = utils.parseJSON(req.query.condition) || {}
-    const limit = Number(req.query.limit) || configs.db.LIMIT_DEFAULT;
-    const page = Number(req.query.page) || configs.db.PAGE_DEFAULT;
+    const condition = req.query.condition || {}
+    const limit = req.query.limit || configs.db.LIMIT_DEFAULT;
+    const page = req.query.page || configs.db.PAGE_DEFAULT;
 
     return db.Project.aggregate([
       { $match: condition },

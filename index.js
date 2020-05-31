@@ -5,6 +5,7 @@ var cors = require('cors');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
+var middlewares = require('./helpers/middlewares');
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -42,6 +43,8 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(middlewares.filterBody);
+app.use(middlewares.parseParams);
 /**
  * Router
  */

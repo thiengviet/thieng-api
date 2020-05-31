@@ -37,9 +37,10 @@ router.get('/social/projects', project.getProjects);
 
 // Files (core)
 router.get('/file', auth.bearerToken(true), file.getFile);
-router.post('/file', auth.bearerToken(false), file.updateFile)
 router.post('/file/image', auth.bearerToken(false), file.middelware('image'), file.saveInfo);
 router.post('/file/video', auth.bearerToken(false), file.middelware('video'), file.saveInfo);
+router.put('/file', auth.bearerToken(false), file.updateFile)
+router.delete('/file', auth.bearerToken(false), file.deleteFile)
 
 /**
  * Module exports

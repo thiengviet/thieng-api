@@ -54,7 +54,7 @@ module.exports = {
       type: file.mimetype,
       source: 'http://localhost:3001/' + file.destination + '/' + file.filename,
       userId: auth._id,
-      metadata: utils.parseJSON(metadata),
+      metadata: utils.deepParseJSON(metadata),
     });
 
     newFile.save(function (er, re) {
@@ -101,5 +101,25 @@ module.exports = {
         if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
       });
-  }
+  },
+
+  /**
+   * Delete a file
+   * @function deleteFile
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  deleteFile: function (req, res, next) {
+    const auth = req.auth;
+    const { file } = req.body;
+    if (!file) return next('Invalid inputs');
+
+    return db.File.findOneAndDelete(
+      { _id: file._id, userId: auth._id },
+      function (er, re) {
+        if (er) return next('Database error');
+        return res.send({ status: 'OK', data: re });
+      });
+  },
 }

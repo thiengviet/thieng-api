@@ -34,9 +34,9 @@ module.exports = {
    * @param {*} next
    */
   getItems: function (req, res, next) {
-    const condition = utils.parseJSON(req.query.condition) || {}
-    const limit = Number(req.query.limit) || configs.db.LIMIT_DEFAULT;
-    const page = Number(req.query.page) || configs.db.PAGE_DEFAULT;
+    const condition = req.query.condition || {}
+    const limit = req.query.limit || configs.db.LIMIT_DEFAULT;
+    const page = req.query.page || configs.db.PAGE_DEFAULT;
 
     return db.Item.aggregate([
       { $match: condition },
@@ -67,11 +67,11 @@ module.exports = {
       if (er) return next('Database error');
 
       if (existing) {
-        if (existing.status != 'new') return next('The item has been existing');
+        if (existing.status != 'creating') return next('The item has been existing');
 
         return db.Item.findOneAndUpdate(
           { _id: item._id },
-          { item },
+          { ...item },
           { new: true },
           function (er, re) {
             if (er) return next('Database error');
