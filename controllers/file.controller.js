@@ -37,24 +37,6 @@ module.exports = {
   },
 
   /**
-   * Get a file by id
-   * @function saveInfo
-   * @param {*} req
-   * @param {*} res
-   * @param {*} next
-   */
-  getFile: function (req, res, next) {
-    var auth = req.auth;
-    var { _id } = req.query;
-    if (!_id) return next('Invalid inputs');
-
-    return db.File.findOne({ _id, userId: auth._id }, function (er, re) {
-      if (er) return next('Database error');
-      return res.send({ status: 'OK', data: re });
-    });
-  },
-
-  /**
    * Save info
    * @function saveInfo
    * @param {*} req
@@ -79,5 +61,45 @@ module.exports = {
       if (er) return next('Database error');
       return res.send({ status: 'OK', data: re });
     });
+  },
+
+  /**
+   * Get a file by id
+   * @function saveInfo
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  getFile: function (req, res, next) {
+    var auth = req.auth;
+    var { _id } = req.query;
+    if (!_id) return next('Invalid inputs');
+
+    return db.File.findOne({ _id, userId: auth._id }, function (er, re) {
+      if (er) return next('Database error');
+      return res.send({ status: 'OK', data: re });
+    });
+  },
+
+  /**
+   * Update a file
+   * @function updateFile
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  updateFile: function (req, res, next) {
+    const auth = req.auth;
+    const { file } = req.body;
+    if (!file) return next('Invalid inputs');
+
+    return db.File.findOneAndUpdate(
+      { _id: file._id, userId: auth._id },
+      { metadata: file.metadata },
+      { new: true },
+      function (er, re) {
+        if (er) return next('Database error');
+        return res.send({ status: 'OK', data: re });
+      });
   }
 }
