@@ -72,12 +72,14 @@ module.exports = {
       if (service != 'thieng') return next('Unsupported service');
       if (!accessToken) return next('Invalid token');
 
+      req.auth = {}
       thiengJS.verifyToken(accessToken).then(re => {
         if (!re && !loose) return next('Invalid token');
         if (re) req.auth = re;
         return next();
       }).catch(er => {
-        return next(er);
+        if (!loose) return next(er);
+        return next();
       });
     }
   },

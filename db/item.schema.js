@@ -12,8 +12,8 @@ var Item = new mongoose.Schema({
   price: { type: Number },
   tags: { type: Array, default: [] },
   category: { type: String, default: 'other' },
-  thumbnail: { type: mongoose.Schema.Types.ObjectId },
-  files: { type: [mongoose.Schema.Types.ObjectId], default: [] },
+  thumbnailId: { type: mongoose.Schema.Types.ObjectId },
+  fileIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   // Relationship
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
   commentIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },

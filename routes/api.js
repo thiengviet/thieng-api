@@ -15,6 +15,7 @@ router.get('/authentication', auth.oauthToken, user.syncUser, auth.generateToken
 
 // User (core)
 router.get('/user', auth.bearerToken(true), user.getUser);
+router.put('/user', auth.bearerToken(false), user.updateUser);
 // User (advance)
 router.get('/social/users', user.getUsers);
 

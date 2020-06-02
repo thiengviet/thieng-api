@@ -14,8 +14,8 @@ module.exports = {
    * @param {*} next
    */
   syncUser: function (req, res, next) {
-    var auth = req.auth;
-    var user = {
+    const auth = req.auth;
+    const user = {
       service: auth.origin,
       email: auth.email,
       displayname: auth.displayname,
@@ -29,7 +29,6 @@ module.exports = {
       { upsert: true, new: true },
       function (er, re) {
         if (er) return next(er);
-
         req.auth._id = re._id;
         return next();
       });
@@ -43,8 +42,14 @@ module.exports = {
    * @param {*} next
    */
   getUser: function (req, res, next) {
+    const auth = req.auth
     const { _id } = req.query;
     if (!_id) return next('Invalid inputs');
+
+    if (auth._id == _id) return db.User.findOne({ _id }, function (er, re) {
+      if (er) return next('Database error');
+      return res.send({ status: 'OK', data: re });
+    });
 
     return db.User.findOne(
       { _id },
@@ -77,5 +82,27 @@ module.exports = {
       if (er) return next('Database error');
       return res.send({ status: 'OK', data: re, pagination: { limit, page } });
     });
-  }
+  },
+
+  /**
+   * Update an user
+   * @function updateUser
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  updateUser: function (req, res, next) {
+    const auth = req.auth;
+    const { user } = req.body;
+    if (!user) return next('Invalid inputs');
+
+    return db.User.findOneAndUpdate(
+      { _id: auth._id },
+      { ...user },
+      { new: true },
+      function (er, re) {
+        if (er) return next('Database error');
+        return res.send({ status: 'OK', data: re });
+      });
+  },
 }
