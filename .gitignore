@@ -100,5 +100,6 @@ dist
 .tern-port
 
 # Project folders
+.DS_Store
 public
 configs/keys
