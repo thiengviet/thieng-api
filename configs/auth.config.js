@@ -1,4 +1,6 @@
 var fs = require('fs');
+var devGoogleAuth = require('./keys/dev.google-auth.json');
+var devFacebookAuth = require('./keys/dev.facebook-auth.json');
 
 /**
  * Contructor
@@ -14,12 +16,12 @@ configs.development = {
     privateKey: fs.readFileSync(__dirname + '/keys/dev.private.key'),
   },
   google: {
-    clientId: '114004784341-bk6g9beaf47m6tlkldi22f5vg7lu1k3m.apps.googleusercontent.com',
-    projectId: 'thieng-1583675924547',
-    javascriptOrigins: ['http://localhost:3000']
+    clientId: devGoogleAuth.client_id,
+    projectId: devGoogleAuth.project_id,
+    javascriptOrigins: [devGoogleAuth.javascript_origins]
   },
   facebook: {
-    appId: '196596601435084'
+    appId: devFacebookAuth.app_id
   },
   apple: {}
 };
@@ -28,9 +30,18 @@ configs.development = {
  * Staging configurations
  */
 configs.staging = {
-  keys: {},
-  google: {},
-  facebook: {},
+  keys: {
+    publicKey: fs.readFileSync(__dirname + '/keys/staging.public.pem'),
+    privateKey: fs.readFileSync(__dirname + '/keys/staging.private.key'),
+  },
+  google: {
+    clientId: devGoogleAuth.client_id,
+    projectId: devGoogleAuth.project_id,
+    javascriptOrigins: [devGoogleAuth.javascript_origins]
+  },
+  facebook: {
+    appId: devFacebookAuth.app_id
+  },
   apple: {}
 };
 

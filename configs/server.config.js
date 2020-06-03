@@ -14,7 +14,7 @@ configs.development = {
  * Staging configurations
  */
 configs.staging = {
-  PORT: 80,
+  PORT: 3001,
 };
 
 /**

@@ -1,7 +1,6 @@
 var configs = global.configs;
 
 var db = require('../db');
-var utils = require('../helpers/utils');
 
 
 module.exports = {
