@@ -61,31 +61,13 @@ module.exports = {
     const { item } = req.body;
     if (!item) return next('Invalid inputs');
 
-    return db.Item.findOne({ _id: item._id }, function (er, existing) {
+    var newItem = new db.Item({
+      ...item,
+      userId: auth._id,
+    });
+    return newItem.save(function (er, re) {
       if (er) return next('Database error');
-
-      if (existing) {
-        if (existing.status != 'creating') return next('The item has been existing');
-
-        return db.Item.findOneAndUpdate(
-          { _id: item._id },
-          { ...item },
-          { new: true },
-          function (er, re) {
-            if (er) return next('Database error');
-            return res.send({ status: 'OK', data: re });
-          });
-      }
-      else {
-        var newItem = new db.Item({
-          ...item,
-          userId: auth._id,
-        });
-        return newItem.save(function (er, re) {
-          if (er) return next('Database error');
-          return res.send({ status: 'OK', data: re });
-        });
-      }
+      return res.send({ status: 'OK', data: re });
     });
   },
 

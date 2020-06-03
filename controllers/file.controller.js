@@ -37,13 +37,13 @@ module.exports = {
   },
 
   /**
-   * Save info
-   * @function saveInfo
+   * Add file
+   * @function addFile
    * @param {*} req
    * @param {*} res
    * @param {*} next
    */
-  saveInfo: function (req, res, next) {
+  addFile: function (req, res, next) {
     var auth = req.auth;
     var file = req.file;
     var { metadata } = req.body;
@@ -65,7 +65,7 @@ module.exports = {
 
   /**
    * Get a file by id
-   * @function saveInfo
+   * @function getFile
    * @param {*} req
    * @param {*} res
    * @param {*} next

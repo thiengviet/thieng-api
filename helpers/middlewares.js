@@ -10,6 +10,7 @@ middlewares.filterBody = function (req, res, next) {
   let body = { ...req.body };
   let keys = Object.keys(body);
   keys.forEach(key => {
+    if (req.method == 'POST') delete body[key]._id;
     delete body[key].__v;
     delete body[key].createdAt;
     delete body[key].updatedAt;
