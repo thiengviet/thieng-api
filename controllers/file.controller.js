@@ -57,7 +57,7 @@ module.exports = {
       metadata: utils.deepParseJSON(metadata),
     });
 
-    newFile.save(function (er, re) {
+    return newFile.save(function (er, re) {
       if (er) return next('Database error');
       return res.send({ status: 'OK', data: re });
     });

@@ -61,7 +61,7 @@ module.exports = {
     const { item } = req.body;
     if (!item) return next('Invalid inputs');
 
-    db.Item.findOne({ _id: item._id }, function (er, existing) {
+    return db.Item.findOne({ _id: item._id }, function (er, existing) {
       if (er) return next('Database error');
 
       if (existing) {

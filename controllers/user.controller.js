@@ -23,7 +23,7 @@ module.exports = {
       role: 'user' // Default value doesn't work with upsert
     }
 
-    db.User.findOneAndUpdate(
+    return db.User.findOneAndUpdate(
       { email: user.email },
       { $set: user },
       { upsert: true, new: true },

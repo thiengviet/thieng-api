@@ -73,7 +73,7 @@ module.exports = {
       if (!accessToken) return next('Invalid token');
 
       req.auth = {}
-      thiengJS.verifyToken(accessToken).then(re => {
+      return thiengJS.verifyToken(accessToken).then(re => {
         if (!re && !loose) return next('Invalid token');
         if (re) req.auth = re;
         return next();
@@ -95,10 +95,7 @@ module.exports = {
     const data = req.auth;
     if (!data || typeof data != 'object') return next('Unauthenticated request');
     const token = thiengJS.generateToken(data);
-    const re = {
-      ...data,
-      accessToken: token
-    }
+    const re = { ...data, accessToken: token }
     return res.send({ status: 'OK', data: re });
   }
 }
