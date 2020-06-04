@@ -1,6 +1,8 @@
 var fs = require('fs');
 var devGoogleAuth = require('./keys/dev.google-auth.json');
 var devFacebookAuth = require('./keys/dev.facebook-auth.json');
+var stagingGoogleAuth = require('./keys/staging.google-auth.json');
+var stagingFacebookAuth = require('./keys/staging.facebook-auth.json');
 
 /**
  * Contructor
@@ -18,7 +20,7 @@ configs.development = {
   google: {
     clientId: devGoogleAuth.client_id,
     projectId: devGoogleAuth.project_id,
-    javascriptOrigins: [devGoogleAuth.javascript_origins]
+    javascriptOrigins: devGoogleAuth.javascript_origins
   },
   facebook: {
     appId: devFacebookAuth.app_id
@@ -35,12 +37,12 @@ configs.staging = {
     privateKey: fs.readFileSync(__dirname + '/keys/staging.private.key'),
   },
   google: {
-    clientId: devGoogleAuth.client_id,
-    projectId: devGoogleAuth.project_id,
-    javascriptOrigins: [devGoogleAuth.javascript_origins]
+    clientId: stagingGoogleAuth.client_id,
+    projectId: stagingGoogleAuth.project_id,
+    javascriptOrigins: stagingGoogleAuth.javascript_origins
   },
   facebook: {
-    appId: devFacebookAuth.app_id
+    appId: stagingFacebookAuth.app_id
   },
   apple: {}
 };
