@@ -49,7 +49,10 @@ configs.staging = {
  * Production configurations
  */
 configs.production = {
-  keys: {},
+  keys: {
+    publicKey: fs.readFileSync(__dirname + '/keys/production.public.pem'),
+    privateKey: fs.readFileSync(__dirname + '/keys/production.private.key'),
+  },
   google: {},
   facebook: {},
   apple: {}
