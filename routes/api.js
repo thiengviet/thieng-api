@@ -6,7 +6,7 @@ var router = express.Router();
  */
 var {
   auth, user, file, item,
-  project,
+  project, cart,
 } = require('../controllers');
 
 
@@ -26,6 +26,14 @@ router.put('/item', auth.bearerToken(false), item.updateItem);
 router.delete('/item', auth.bearerToken(false), item.deleteItem);
 // Item (advance)
 router.get('/social/items', item.getItems);
+
+// Cart
+router.get('/cart', auth.bearerToken(false), cart.getCart);
+router.post('/cart', auth.bearerToken(false), cart.addCart);
+router.put('/cart', auth.bearerToken(false), cart.updateCart);
+router.delete('/cart', auth.bearerToken(false), cart.deleteCart);
+// Cart (advance)
+router.get('/social/carts', auth.bearerToken(false), item.getItems);
 
 // Project (core)
 router.get('/project', auth.bearerToken(true), project.getProject);

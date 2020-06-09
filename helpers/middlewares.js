@@ -21,7 +21,7 @@ middlewares.filterBody = function (req, res, next) {
 
 middlewares.parseParams = function (req, res, next) {
   if (!req.query) return next();
-  let params = JSON.stringify(req.query)
+  let params = JSON.stringify(req.query);
   req.query = utils.deepParseJSON(params);
   return next()
 }
