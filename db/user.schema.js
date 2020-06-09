@@ -10,6 +10,8 @@ var User = new mongoose.Schema({
   displayname: { type: String },
   avatar: { type: String },
   panel: { type: String },
+  phone: { type: String },
+  addresses: { type: [String], default: [] },
   description: { type: String },
   role: { type: String, enum: ['root', 'admin', 'user'], default: 'user' }
 });
