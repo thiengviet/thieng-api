@@ -6,7 +6,7 @@ var router = express.Router();
  */
 var {
   auth, user, file, item,
-  project, cart,
+  project, cart, recommendation,
 } = require('../controllers');
 
 
@@ -50,6 +50,9 @@ router.post('/file/image', auth.bearerToken(false), file.middelware('image'), fi
 router.post('/file/video', auth.bearerToken(false), file.middelware('video'), file.addFile);
 router.put('/file', auth.bearerToken(false), file.updateFile);
 router.delete('/file', auth.bearerToken(false), file.deleteFile);
+
+// Recommendation (core)
+router.get('/recommendation/items', recommendation.recommendItems);
 
 /**
  * Module exports

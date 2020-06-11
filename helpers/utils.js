@@ -16,12 +16,17 @@ utils.parseJSON = function (jsonString) {
 utils.deepParseJSON = function (jsonString) {
   let value = utils.parseJSON(jsonString);
   if (value == null) return jsonString;
-  if (typeof value != 'object') return value;
-  let keys = Object.keys(value);
-  keys.forEach(key => {
-    value[key] = utils.deepParseJSON(value[key]);
-  });
-  return value;
+  if (typeof value == 'array') {
+    return value.map(e => utils.deepParseJSON(e));
+  }
+  else if (typeof value == 'object') {
+    let keys = Object.keys(value);
+    keys.forEach(key => {
+      value[key] = utils.deepParseJSON(value[key]);
+    });
+    return value;
+  }
+  else return value;
 }
 
 module.exports = utils;

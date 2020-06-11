@@ -21,6 +21,7 @@ configs.development = {
   // Common
   LIMIT_DEFAULT: 5,
   PAGE_DEFAULT: 0,
+  SAMPLE_DEFAULT: 6,
   // Uploader path
   UPLOADER_PATH: {
     image: 'public/images',
@@ -52,6 +53,7 @@ configs.staging = {
   // Common
   LIMIT_DEFAULT: 5,
   PAGE_DEFAULT: 0,
+  SAMPLE_DEFAULT: 6,
   // Uploader path
   UPLOADER_PATH: {
     image: 'public/images',
@@ -83,6 +85,7 @@ configs.production = {
   // Common
   LIMIT_DEFAULT: 5,
   PAGE_DEFAULT: 0,
+  SAMPLE_DEFAULT: 6,
   // Uploader path
   UPLOADER_PATH: {
     image: 'public/images',
