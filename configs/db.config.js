@@ -28,7 +28,7 @@ configs.development = {
     video: 'public/videos',
   },
   LIMIT_FILE_SIZE: {
-    image: 5 * 1024 * 1024,
+    image: 10 * 1024 * 1024,
     video: 50 * 1024 * 1024,
   },
   FILE_TYPES: {
@@ -60,7 +60,7 @@ configs.staging = {
     video: 'public/videos',
   },
   LIMIT_FILE_SIZE: {
-    image: 5 * 1024 * 1024,
+    image: 10 * 1024 * 1024,
     video: 50 * 1024 * 1024,
   },
   FILE_TYPES: {
@@ -92,7 +92,7 @@ configs.production = {
     video: 'public/videos',
   },
   LIMIT_FILE_SIZE: {
-    image: 5 * 1024 * 1024,
+    image: 10 * 1024 * 1024,
     video: 50 * 1024 * 1024,
   },
   FILE_TYPES: {

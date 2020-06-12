@@ -9,7 +9,7 @@ var User = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   displayname: { type: String },
   avatar: { type: String },
-  panel: { type: String },
+  panel: { type: mongoose.Schema.Types.ObjectId },
   phone: { type: String },
   addresses: { type: [String], default: [] },
   description: { type: String },

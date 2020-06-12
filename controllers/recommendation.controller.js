@@ -17,7 +17,6 @@ module.exports = {
 
     return db.Item.aggregate([
       { $match: condition },
-      { $sort: { createdAt: -1 } },
       { $sample: { size: sample } },
       { $project: { _id: 1 } }
     ]).exec(function (er, re) {
