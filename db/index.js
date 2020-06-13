@@ -3,7 +3,7 @@ var Item = require('./item.schema');
 var Comment = require('./comment.schema');
 var File = require('./file.schema');
 var Project = require('./project.schema');
-var Cart = require('./cart.schema');
+var Order = require('./order.schema');
 
 /**
  * Module exports
@@ -14,5 +14,5 @@ module.exports = {
   Comment,
   File,
   Project,
-  Cart,
+  Order,
 }

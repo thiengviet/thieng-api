@@ -1,22 +1,24 @@
 var configs = global.configs;
 
+var { Types } = require('mongoose');
+
 var db = require('../db');
 
 module.exports = {
 
   /**
-   * Get cart
-   * @function getCart
+   * Get an order
+   * @function getOrder
    * @param {*} req
    * @param {*} res
    * @param {*} next
    */
-  getCart: function (req, res, next) {
+  getOrder: function (req, res, next) {
     const auth = req.auth;
     const { _id } = req.query;
     if (!_id) return next('Invalid inputs');
 
-    return db.Cart.findOne(
+    return db.Order.findOne(
       { _id, userId: auth._id },
       function (er, re) {
         if (er) return next('Database error');
@@ -25,68 +27,68 @@ module.exports = {
   },
 
   /**
-   * Get cart(s)
-   * @function getCarts
+   * Get orders
+   * @function getOrders
    * @param {*} req
    * @param {*} res
    * @param {*} next
    */
-  getCarts: function (req, res, next) {
+  getOrders: function (req, res, next) {
     const auth = req.auth;
     const condition = req.query.condition || {}
     const limit = req.query.limit || configs.db.LIMIT_DEFAULT;
     const page = req.query.page || configs.db.PAGE_DEFAULT;
-
-    return db.Cart.aggregate([
-      { $match: { ...condition, userId: auth._id } },
+    return db.Order.aggregate([
+      { $match: { ...condition, sellerId: Types.ObjectId(auth._id) } },
       { $sort: { createdAt: -1 } },
       { $skip: limit * page },
       { $limit: limit },
       { $project: { _id: 1 } }
     ]).exec(function (er, re) {
       if (er) return next('Database error');
+      if (!re || !re.length) return next('Out of data');
       return res.send({ status: 'OK', data: re, pagination: { limit, page } });
     });
   },
 
 
   /**
-   * Add cart
-   * @function addCart
+   * Add order
+   * @function addOrder
    * @param {*} req
    * @param {*} res
    * @param {*} next
    */
-  addCart: function (req, res, next) {
+  addOrder: function (req, res, next) {
     const auth = req.auth;
-    const { cart } = req.body;
-    if (!cart) return next('Invalid inputs');
+    const { order } = req.body;
+    if (!order) return next('Invalid inputs');
 
-    var newCart = new db.Cart({
-      ...cart,
+    var newOrder = new db.Order({
+      ...order,
       userId: auth._id,
     });
-    return newCart.save(function (er, re) {
+    return newOrder.save(function (er, re) {
       if (er) return next('Database error');
       return res.send({ status: 'OK', data: re });
     });
   },
 
   /**
-   * Update cart
-   * @function updateCart
+   * Update order
+   * @function updateOrder
    * @param {*} req
    * @param {*} res
    * @param {*} next
    */
-  updateCart: function (req, res, next) {
+  updateOrder: function (req, res, next) {
     const auth = req.auth;
-    const { cart } = req.body;
-    if (!cart) return next('Invalid inputs');
+    const { order } = req.body;
+    if (!order) return next('Invalid inputs');
 
-    return db.Cart.findOneAndUpdate(
-      { _id: cart._id, userId: auth._id },
-      { ...cart, userId: auth._id },
+    return db.Order.findOneAndUpdate(
+      { _id: order._id, userId: auth._id },
+      { ...order, userId: auth._id },
       { new: true },
       function (er, re) {
         if (er) return next('Database error');
@@ -95,19 +97,19 @@ module.exports = {
   },
 
   /**
-   * Delete cart
-   * @function deleteCart
+   * Delete order
+   * @function deleteOrder
    * @param {*} req
    * @param {*} res
    * @param {*} next
    */
-  deleteCart: function (req, res, next) {
+  deleteOrder: function (req, res, next) {
     const auth = req.auth;
-    const { cart } = req.body;
-    if (!cart) return next('Invalid inputs');
+    const { order } = req.body;
+    if (!order) return next('Invalid inputs');
 
-    return db.Cart.findOneAndDelete(
-      { _id: cart._id, userId: auth._id },
+    return db.Order.findOneAndDelete(
+      { _id: order._id, userId: auth._id },
       function (er, re) {
         if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });

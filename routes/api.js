@@ -6,7 +6,7 @@ var router = express.Router();
  */
 var {
   auth, user, file, item,
-  project, cart, recommendation,
+  project, order, recommendation,
 } = require('../controllers');
 
 
@@ -17,7 +17,7 @@ router.get('/authentication', auth.oauthToken, user.syncUser, auth.generateToken
 router.get('/user', auth.bearerToken(true), user.getUser);
 router.put('/user', auth.bearerToken(false), user.updateUser);
 // User (advance)
-router.get('/social/users', user.getUsers);
+router.get('/public/users', user.getUsers);
 
 // Item (core)
 router.get('/item', auth.bearerToken(true), item.getItem);
@@ -25,15 +25,15 @@ router.post('/item', auth.bearerToken(false), item.addItem);
 router.put('/item', auth.bearerToken(false), item.updateItem);
 router.delete('/item', auth.bearerToken(false), item.deleteItem);
 // Item (advance)
-router.get('/social/items', item.getItems);
+router.get('/public/items', item.getItems);
 
-// Cart
-router.get('/cart', auth.bearerToken(false), cart.getCart);
-router.post('/cart', auth.bearerToken(false), cart.addCart);
-router.put('/cart', auth.bearerToken(false), cart.updateCart);
-router.delete('/cart', auth.bearerToken(false), cart.deleteCart);
-// Cart (advance)
-router.get('/social/carts', auth.bearerToken(false), item.getItems);
+// Order
+router.get('/order', auth.bearerToken(false), order.getOrder);
+router.post('/order', auth.bearerToken(false), order.addOrder);
+router.put('/order', auth.bearerToken(false), order.updateOrder);
+router.delete('/order', auth.bearerToken(false), order.deleteOrder);
+// Order (advance)
+router.get('/private/orders', auth.bearerToken(false), order.getOrders);
 
 // Project (core)
 router.get('/project', auth.bearerToken(true), project.getProject);
@@ -41,8 +41,8 @@ router.post('/project', auth.bearerToken(false), project.addProject);
 router.put('/project', auth.bearerToken(false), project.updateProject);
 router.delete('/project', auth.bearerToken(false), project.deleteProject);
 // Project (advance)
-router.get('/social/project', project.getProject);
-router.get('/social/projects', project.getProjects);
+router.get('/public/project', project.getProject);
+router.get('/public/projects', project.getProjects);
 
 // Files (core)
 router.get('/file', auth.bearerToken(true), file.getFile);

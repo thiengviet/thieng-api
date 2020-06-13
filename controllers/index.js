@@ -3,7 +3,7 @@ var user = require('./user.controller');
 var file = require('./file.controller');
 var item = require('./item.controller');
 var project = require('./project.controller');
-var cart = require('./cart.controller');
+var order = require('./order.controller');
 var recommendation = require('./recommendation.controller');
 
 module.exports = {
@@ -12,6 +12,6 @@ module.exports = {
   file,
   item,
   project,
-  cart,
+  order,
   recommendation,
 }
