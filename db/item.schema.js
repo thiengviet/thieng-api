@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var timestamps = require('mongoose-timestamp');
 
 /**
  * Schema
@@ -19,12 +18,7 @@ var Item = new mongoose.Schema({
   commentIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   // Flags
   status: { type: String, enum: ['creating', 'selling', 'archived'], default: 'creating' },
-});
-
-/**
- * Plugins
- */
-Item.plugin(timestamps);
+}, { timestamps: true });
 
 /**
  * Module exports

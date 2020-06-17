@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var timestamps = require('mongoose-timestamp');
 
 /**
  * Schema
@@ -13,12 +12,7 @@ var Project = new mongoose.Schema({
   dislikeUserIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
   status: { type: String, enum: ['public', 'private'], default: 'public' }
-});
-
-/**
- * Plugins
- */
-Project.plugin(timestamps);
+}, { timestamps: true });
 
 /**
  * Module exports

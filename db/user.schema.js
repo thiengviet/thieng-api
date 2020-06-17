@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var timestamps = require('mongoose-timestamp');
 
 /**
  * Schema
@@ -14,12 +13,7 @@ var User = new mongoose.Schema({
   addresses: { type: [String], default: [] },
   description: { type: String },
   role: { type: String, enum: ['root', 'admin', 'user'], default: 'user' }
-});
-
-/**
- * Plugins
- */
-User.plugin(timestamps);
+}, { timestamps: true });
 
 /**
  * Module exports

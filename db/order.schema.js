@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var timestamps = require('mongoose-timestamp');
 
 /**
  * Schema
@@ -8,7 +7,11 @@ var OrderItem = new mongoose.Schema({
   itemId: { type: mongoose.Schema.Types.ObjectId, required: true },
   price: { type: Number, required: true },
   amount: { type: Number, required: true }
-});
+}, { timestamps: true });
+
+var OrderStatusHistory = new mongoose.Schema({
+  status: { type: String, required: true },
+}, { timestamps: true });
 
 var Order = new mongoose.Schema({
   // General info
@@ -26,12 +29,8 @@ var Order = new mongoose.Schema({
   note: { type: String },
   // Flags
   status: { type: String, enum: ['waiting', 'packaging', 'delivering', 'canceled', 'done'], default: 'waiting' },
-});
-
-/**
- * Plugins
- */
-Order.plugin(timestamps);
+  statusHistory: { type: [OrderStatusHistory], default: [] }
+}, { timestamps: true });
 
 /**
  * Module exports

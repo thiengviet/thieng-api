@@ -86,6 +86,7 @@ module.exports = {
     const { order } = req.body;
     if (!order) return next('Invalid inputs');
 
+    delete order.status; // Disallow users change order status
     return db.Order.findOneAndUpdate(
       { _id: order._id, userId: auth._id },
       { ...order, userId: auth._id },
@@ -93,6 +94,41 @@ module.exports = {
       function (er, re) {
         if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
+      });
+  },
+
+  /**
+   * Update order status (for seller only)
+   * @function updateOrderStatus
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  updateOrderStatus: function (req, res, next) {
+    const auth = req.auth;
+    const { order } = req.body;
+    if (!order || !order.status) return next('Invalid inputs');
+
+    return db.Order.findOne(
+      { _id: order._id, sellerId: auth._id },
+      function (er, re) {
+        if (er) return next('Database error');
+        if (re.status == order.status) return next('Status is at this value already');
+
+        let history = re.statusHistory;
+        history.push({ status: order.status });
+        return re.updateOne(
+          {
+            $set: {
+              status: order.status,
+              statusHistory: history
+            }
+          },
+          function (er, re) {
+            if (er) return next('Database error');
+
+            return res.send({ status: 'OK', data: re });
+          });
       });
   },
 

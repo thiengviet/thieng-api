@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var timestamps = require('mongoose-timestamp');
 
 /**
  * Schema
@@ -10,12 +9,7 @@ var File = new mongoose.Schema({
   source: { type: String, required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
   metadata: { type: Object, default: {} }
-});
-
-/**
- * Plugins
- */
-File.plugin(timestamps);
+}, { timestamps: true });
 
 /**
  * Module exports

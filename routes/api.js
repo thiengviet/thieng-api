@@ -34,6 +34,7 @@ router.put('/order', auth.bearerToken(false), order.updateOrder);
 router.delete('/order', auth.bearerToken(false), order.deleteOrder);
 // Order (advance)
 router.get('/private/orders', auth.bearerToken(false), order.getOrders);
+router.put('/private/order/status', auth.bearerToken(false), order.updateOrderStatus);
 
 // Project (core)
 router.get('/project', auth.bearerToken(true), project.getProject);
