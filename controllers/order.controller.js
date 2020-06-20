@@ -37,7 +37,6 @@ module.exports = {
     const limit = req.query.limit || configs.db.LIMIT_DEFAULT;
     const page = req.query.page || configs.db.PAGE_DEFAULT;
 
-    console.log(condition)
     return db.Order.aggregate([
       { $match: { ...condition, sellerId: auth._id } },
       { $sort: { createdAt: -1 } },
@@ -45,6 +44,7 @@ module.exports = {
       { $limit: limit },
       { $project: { _id: 1 } }
     ]).exec(function (er, re) {
+      console.log(er)
       if (er) return next('Database error');
 
       return res.send({ status: 'OK', data: re, pagination: { limit, page } });
