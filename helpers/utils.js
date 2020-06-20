@@ -1,3 +1,5 @@
+var { Types } = require('mongoose');
+
 /**
  * Constructor
  */
@@ -15,7 +17,12 @@ utils.parseJSON = function (jsonString) {
 
 utils.deepParseJSON = function (jsonString) {
   let value = utils.parseJSON(jsonString);
-  if (value == null) return jsonString;
+  if (value == null) {
+    if (Types.ObjectId.isValid(jsonString)) {
+      return Types.ObjectId(jsonString);
+    }
+    return jsonString;
+  }
   if (typeof value == 'array') {
     return value.map(e => utils.deepParseJSON(e));
   }

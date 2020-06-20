@@ -1,5 +1,7 @@
 var configs = global.configs;
 
+var { Types } = require('mongoose');
+
 var db = require('../db');
 
 
@@ -28,7 +30,7 @@ module.exports = {
       { upsert: true, new: true },
       function (er, re) {
         if (er) return next(er);
-        req.auth._id = re._id;
+        req.auth._id = Types.ObjectId(re._id);
         return next();
       });
   },

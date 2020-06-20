@@ -1,3 +1,4 @@
+var { Types } = require('mongoose');
 var googleJS = require('../helpers/google');
 var facebookJS = require('../helpers/facebook');
 var thiengJS = require('../helpers/thieng');
@@ -75,7 +76,7 @@ module.exports = {
       req.auth = {}
       return thiengJS.verifyToken(accessToken).then(re => {
         if (!re && !loose) return next('Invalid token');
-        if (re) req.auth = re;
+        if (re) req.auth = { ...re, _id: Types.ObjectId(re._id) };
         return next();
       }).catch(er => {
         if (!loose) return next(er);

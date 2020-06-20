@@ -1,7 +1,5 @@
 var configs = global.configs;
 
-var { Types } = require('mongoose');
-
 var db = require('../db');
 
 module.exports = {
@@ -38,9 +36,10 @@ module.exports = {
     const condition = req.query.condition || {}
     const limit = req.query.limit || configs.db.LIMIT_DEFAULT;
     const page = req.query.page || configs.db.PAGE_DEFAULT;
-    
+
+    console.log(condition)
     return db.Order.aggregate([
-      { $match: { ...condition, sellerId: Types.ObjectId(auth._id) } },
+      { $match: { ...condition, sellerId: auth._id } },
       { $sort: { createdAt: -1 } },
       { $skip: limit * page },
       { $limit: limit },
