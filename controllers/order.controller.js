@@ -38,6 +38,7 @@ module.exports = {
     const condition = req.query.condition || {}
     const limit = req.query.limit || configs.db.LIMIT_DEFAULT;
     const page = req.query.page || configs.db.PAGE_DEFAULT;
+    
     return db.Order.aggregate([
       { $match: { ...condition, sellerId: Types.ObjectId(auth._id) } },
       { $sort: { createdAt: -1 } },
@@ -46,7 +47,7 @@ module.exports = {
       { $project: { _id: 1 } }
     ]).exec(function (er, re) {
       if (er) return next('Database error');
-      if (!re || !re.length) return next('Out of data');
+
       return res.send({ status: 'OK', data: re, pagination: { limit, page } });
     });
   },
