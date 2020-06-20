@@ -47,7 +47,7 @@ module.exports = {
     const { _id } = req.query;
     if (!_id) return next('Invalid inputs');
 
-    if (auth._id == _id) return db.User.findOne({ _id }, function (er, re) {
+    if (auth._id.toString() == _id.toString()) return db.User.findOne({ _id }, function (er, re) {
       if (er) return next('Database error');
       return res.send({ status: 'OK', data: re });
     });
