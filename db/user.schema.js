@@ -10,7 +10,7 @@ var User = new mongoose.Schema({
   avatar: { type: String },
   panel: { type: mongoose.Schema.Types.ObjectId },
   phone: { type: String },
-  addresses: { type: [String], default: [] },
+  addresses: { type: [String], default: [] }, // [home, company, other]
   description: { type: String },
   role: { type: String, enum: ['root', 'admin', 'user'], default: 'user' }
 }, { timestamps: true });
