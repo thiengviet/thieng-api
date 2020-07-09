@@ -25,7 +25,7 @@ module.exports = {
   },
 
   /**
-   * Get orders
+   * Get orders (for sellers)
    * @function getOrders
    * @param {*} req
    * @param {*} res
@@ -39,6 +39,33 @@ module.exports = {
 
     return db.Order.aggregate([
       { $match: { ...condition, sellerId: auth._id } },
+      { $sort: { createdAt: -1 } },
+      { $skip: limit * page },
+      { $limit: limit },
+      { $project: { _id: 1 } }
+    ]).exec(function (er, re) {
+      console.log(er)
+      if (er) return next('Database error');
+
+      return res.send({ status: 'OK', data: re, pagination: { limit, page } });
+    });
+  },
+
+  /**
+   * Get my orders (for users)
+   * @function getMyOrders
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  getMyOrders: function (req, res, next) {
+    const auth = req.auth;
+    const condition = req.query.condition || {}
+    const limit = req.query.limit || configs.db.LIMIT_DEFAULT;
+    const page = req.query.page || configs.db.PAGE_DEFAULT;
+
+    return db.Order.aggregate([
+      { $match: { ...condition, userId: auth._id } },
       { $sort: { createdAt: -1 } },
       { $skip: limit * page },
       { $limit: limit },
