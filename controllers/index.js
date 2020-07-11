@@ -5,6 +5,7 @@ var item = require('./item.controller');
 var project = require('./project.controller');
 var order = require('./order.controller');
 var recommendation = require('./recommendation.controller');
+var comment = require('./comment.controller');
 
 module.exports = {
   auth,
@@ -14,4 +15,5 @@ module.exports = {
   project,
   order,
   recommendation,
+  comment,
 }

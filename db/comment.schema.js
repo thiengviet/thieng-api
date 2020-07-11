@@ -4,12 +4,12 @@ var mongoose = require('mongoose');
  * Schema
  */
 var Comment = new mongoose.Schema({
-  item: { type: mongoose.Schema.Types.ObjectId },
-  blueprint: { type: mongoose.Schema.Types.ObjectId },
+  target: { type: mongoose.Schema.Types.ObjectId, required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
   likeUserIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   dislikeUserIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
-  content: { type: String },
+  contents: { type: String, required: true },
+  replies: { type: [mongoose.Schema.Types.ObjectId], default: [] },
 }, { timestamps: true });
 
 /**
