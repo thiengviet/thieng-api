@@ -22,7 +22,7 @@ module.exports = {
         return res.send({ status: 'OK', data: re });
       });
   },
-  
+
   /**
    * Get comments
    * @function getComments

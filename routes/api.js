@@ -7,6 +7,7 @@ var router = express.Router();
 var {
   auth, user, file, item,
   project, order, recommendation,
+  comment, feeling,
 } = require('../controllers');
 
 
@@ -45,6 +46,22 @@ router.delete('/project', auth.bearerToken(false), project.deleteProject);
 // Project (advance)
 router.get('/public/project', project.getProject);
 router.get('/public/projects', project.getProjects);
+
+// Comment (core)
+router.get('/comment', auth.bearerToken(false), comment.getComment);
+router.post('/comment', auth.bearerToken(false), comment.addComment);
+router.put('/comment', auth.bearerToken(false), comment.updateComment);
+router.delete('/comment', auth.bearerToken(false), comment.deleteComment);
+// Comment (advance)
+router.get('/public/comments', comment.getComments);
+
+// Feeling (core)
+router.get('/feeling', auth.bearerToken(false), feeling.getFeeling);
+router.post('/feeling', auth.bearerToken(false), feeling.addFeeling);
+router.put('/feeling', auth.bearerToken(false), feeling.updateFeeling);
+router.delete('/feeling', auth.bearerToken(false), feeling.deleteFeeling);
+// Feeling (advance)
+router.get('/public/feelings', feeling.getFeelings);
 
 // Files (core)
 router.get('/file', auth.bearerToken(true), file.getFile);

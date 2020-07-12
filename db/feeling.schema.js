@@ -3,14 +3,16 @@ var mongoose = require('mongoose');
 /**
  * Schema
  */
-var Comment = new mongoose.Schema({
-  // Target can be items, blueprints, or other comments
+var Feeling = new mongoose.Schema({
+  // Target can be comments
   targetId: { type: mongoose.Schema.Types.ObjectId, required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
-  contents: { type: String, required: true },
+  type: { type: String, enum: ['like', 'poop'], required: true },
 }, { timestamps: true });
+// Compound indices
+Feeling.index({ targetId: 1, userId: 1 });
 
 /**
  * Module exports
  */
-module.exports = mongoose.model('Comment', Comment);
+module.exports = mongoose.model('Feeling', Feeling);
