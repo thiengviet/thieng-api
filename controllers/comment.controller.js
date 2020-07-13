@@ -107,6 +107,9 @@ module.exports = {
       { _id: comment._id, userId: auth._id },
       function (er, re) {
         if (er) return next('Database error');
+        db.Feeling.deleteMany({ targetId: comment._id }, function (er) {
+          console.log(er)
+        });
         return res.send({ status: 'OK', data: re });
       });
   },
