@@ -57,16 +57,16 @@ module.exports = {
   /**
    * Verify thieng's token
    * @function bearerToken
-   * @param {*} loose - default false
-   * If loose is false, the auth process works without exceptions 
+   * @param {*} relaxed - default false
+   * If relaxed is false, the auth process works without exceptions 
    * even thought invalid access token, however, req.auth will be null.
    * Else, vice versa.
    */
-  bearerToken: function (loose = false) {
+  bearerToken: function (relaxed = false) {
     return function (req, res, next) {
       let { authorization } = req.headers;
       if (!authorization || typeof authorization != 'string') {
-        if (!loose) return next('Unauthenticated request');
+        if (!relaxed) return next('Unauthenticated request');
         else authorization = 'thieng fake-token';
       }
       const [service, accessToken] = authorization.split(' ');
@@ -75,11 +75,11 @@ module.exports = {
 
       req.auth = {}
       return thiengJS.verifyToken(accessToken).then(re => {
-        if (!re && !loose) return next('Invalid token');
+        if (!re && !relaxed) return next('Invalid token');
         if (re) req.auth = { ...re, _id: Types.ObjectId(re._id) };
         return next();
       }).catch(er => {
-        if (!loose) return next(er);
+        if (!relaxed) return next(er);
         return next();
       });
     }

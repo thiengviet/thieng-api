@@ -47,14 +47,16 @@ module.exports = {
     const { _id } = req.query;
     if (!_id) return next('Invalid inputs');
 
-    if (auth._id.toString() == _id.toString()) return db.User.findOne({ _id }, function (er, re) {
-      if (er) return next('Database error');
-      return res.send({ status: 'OK', data: re });
-    });
+    if (auth._id.toString() == _id.toString()) {
+      return db.User.findOne({ _id }, function (er, re) {
+        if (er) return next('Database error');
+        return res.send({ status: 'OK', data: re });
+      });
+    }
 
     return db.User.findOne(
       { _id },
-      '_id avatar displayname panel',
+      '_id avatar displayname description panel',
       function (er, re) {
         if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
