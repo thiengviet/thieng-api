@@ -1,8 +1,8 @@
 var fs = require('fs');
-var devGoogleAuth = require('./keys/dev.google-auth.json');
-var devFacebookAuth = require('./keys/dev.facebook-auth.json');
-var stagingGoogleAuth = require('./keys/staging.google-auth.json');
-var stagingFacebookAuth = require('./keys/staging.facebook-auth.json');
+var devGoogleAuth = require('./keys/google/dev.google-auth.json');
+var devFacebookAuth = require('./keys/facebook/dev.facebook-auth.json');
+var stagingGoogleAuth = require('./keys/google/staging.google-auth.json');
+var stagingFacebookAuth = require('./keys/facebook/staging.facebook-auth.json');
 
 /**
  * Contructor
@@ -14,8 +14,8 @@ var configs = {};
  */
 configs.development = {
   keys: {
-    publicKey: fs.readFileSync(__dirname + '/keys/dev.public.pem'),
-    privateKey: fs.readFileSync(__dirname + '/keys/dev.private.key'),
+    publicKey: fs.readFileSync(__dirname + '/keys/auth/dev.public.pem'),
+    privateKey: fs.readFileSync(__dirname + '/keys/auth/dev.private.key'),
   },
   google: {
     clientId: devGoogleAuth.client_id,
@@ -33,8 +33,8 @@ configs.development = {
  */
 configs.staging = {
   keys: {
-    publicKey: fs.readFileSync(__dirname + '/keys/staging.public.pem'),
-    privateKey: fs.readFileSync(__dirname + '/keys/staging.private.key'),
+    publicKey: fs.readFileSync(__dirname + '/keys/auth/staging.public.pem'),
+    privateKey: fs.readFileSync(__dirname + '/keys/auth/staging.private.key'),
   },
   google: {
     clientId: stagingGoogleAuth.client_id,
@@ -52,8 +52,8 @@ configs.staging = {
  */
 configs.production = {
   keys: {
-    publicKey: fs.readFileSync(__dirname + '/keys/production.public.pem'),
-    privateKey: fs.readFileSync(__dirname + '/keys/production.private.key'),
+    publicKey: fs.readFileSync(__dirname + '/keys/auth/production.public.pem'),
+    privateKey: fs.readFileSync(__dirname + '/keys/auth/production.private.key'),
   },
   google: {},
   facebook: {},

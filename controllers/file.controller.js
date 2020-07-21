@@ -1,8 +1,26 @@
 var configs = global.configs;
 var multer = require('multer');
+var multerS3 = require('multer-s3');
+var aws = require('aws-sdk');
 
 var db = require('../db');
 var utils = require('../helpers/utils');
+
+
+/**
+ * Creating a S3 connection
+ */
+aws.config.update({
+  accessKeyId: configs.db.S3_ACCESS_KEY,
+  secretAccessKey: configs.db.S3_SECRET_KEY,
+  region: 'hn',
+  endpoint: 'https://ss-hn-1.vccloud.vn',
+  apiVersions: {
+    s3: '2006-03-01'
+  },
+});
+const s3 = new aws.S3();
+
 
 module.exports = {
 
@@ -25,14 +43,14 @@ module.exports = {
           return callback('Unsupported file type', false);
         return callback(null, true);
       },
-      storage: multer.diskStorage({
-        destination: function (req, file, callback) {
-          return callback(null, configs.db.UPLOADER_PATH[type]);
-        },
-        filename: function (req, file, callback) {
-          return callback(null, Date.now() + '-' + file.originalname);
+      storage: multerS3({
+        s3: s3,
+        bucket: configs.db.S3_BUCKET_NAME,
+        acl: 'public-read',
+        key: function (req, file, callback) {
+          return callback(null, Date.now() + '-' + file.originalname)
         }
-      })
+      }),
     }).single(type);
   },
 
@@ -49,10 +67,12 @@ module.exports = {
     var { metadata } = req.body;
     if (!file) return next('Invalid inputs');
 
+    console.log(file)
+
     var newFile = new db.File({
-      name: file.filename,
+      name: file.key,
       type: file.mimetype,
-      source: 'http://localhost:3001/' + file.destination + '/' + file.filename,
+      source: file.location,
       userId: auth._id,
       metadata: utils.deepParseJSON(metadata),
     });

@@ -1,4 +1,7 @@
-var stagingMongoAuth = require('./keys/staging.thieng-db.json');
+var devS3Auth = require('./keys/s3/dev.thieng-static.json');
+var stagingS3Auth = require('./keys/s3/staging.thieng-static.json');
+var productionS3Auth = require('./keys/s3/production.thieng-static.json');
+var stagingMongoAuth = require('./keys/mongo/staging.thieng-db.json');
 
 /**
  * Contructor
@@ -22,11 +25,10 @@ configs.development = {
   LIMIT_DEFAULT: 5,
   PAGE_DEFAULT: 0,
   SAMPLE_DEFAULT: 6,
-  // Uploader path
-  UPLOADER_PATH: {
-    image: 'public/images',
-    video: 'public/videos',
-  },
+  // S3
+  S3_ACCESS_KEY: devS3Auth.accessKey,
+  S3_SECRET_KEY: devS3Auth.secretKey,
+  S3_BUCKET_NAME: 'thieng-static',
   LIMIT_FILE_SIZE: {
     image: 10 * 1024 * 1024,
     video: 50 * 1024 * 1024,
@@ -54,11 +56,10 @@ configs.staging = {
   LIMIT_DEFAULT: 5,
   PAGE_DEFAULT: 0,
   SAMPLE_DEFAULT: 6,
-  // Uploader path
-  UPLOADER_PATH: {
-    image: 'public/images',
-    video: 'public/videos',
-  },
+  // S3
+  S3_ACCESS_KEY: stagingS3Auth.accessKey,
+  S3_SECRET_KEY: stagingS3Auth.secretKey,
+  S3_BUCKET_NAME: 'thieng-static',
   LIMIT_FILE_SIZE: {
     image: 10 * 1024 * 1024,
     video: 50 * 1024 * 1024,
@@ -86,11 +87,10 @@ configs.production = {
   LIMIT_DEFAULT: 5,
   PAGE_DEFAULT: 0,
   SAMPLE_DEFAULT: 6,
-  // Uploader path
-  UPLOADER_PATH: {
-    image: 'public/images',
-    video: 'public/videos',
-  },
+  // S3
+  S3_ACCESS_KEY: productionS3Auth.accessKey,
+  S3_SECRET_KEY: productionS3Auth.secretKey,
+  S3_BUCKET_NAME: 'thieng-static',
   LIMIT_FILE_SIZE: {
     image: 10 * 1024 * 1024,
     video: 50 * 1024 * 1024,
