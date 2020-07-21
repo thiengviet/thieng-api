@@ -51,7 +51,6 @@ app.use(middlewares.parseParams);
 
 // Main APIs
 var api = require('./routes/api');
-app.use('/public', express.static('public'));
 app.use('/', api);
 
 // Error handler
