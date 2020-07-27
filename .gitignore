@@ -101,5 +101,4 @@ dist
 
 # Project folders
 .DS_Store
-public
 configs/keys
