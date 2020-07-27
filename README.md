@@ -3,7 +3,11 @@
 ## Build docker
 
 ```
-sudo docker build -t thieng-api .
-sudo docker tag thieng-api:latest tphanson/thieng-api:latest
-docker push tuphanson/thieng-api:latest
+sudo sh docker.sh
+```
+
+## Start docker
+
+```
+docker run -it -w /home/thieng-app --name app tuphanson/thieng-app bash
 ```
