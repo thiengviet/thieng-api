@@ -9,5 +9,5 @@ sudo sh docker.sh
 ## Start docker
 
 ```
-docker run -it -w /home/thieng-app --name app tuphanson/thieng-app bash
+docker run -it -w /home/thieng-api --name api tuphanson/thieng-api bash
 ```
