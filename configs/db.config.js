@@ -2,6 +2,7 @@ var devS3Auth = require('./keys/s3/dev.thieng-static.json');
 var stagingS3Auth = require('./keys/s3/staging.thieng-static.json');
 var productionS3Auth = require('./keys/s3/production.thieng-static.json');
 var stagingMongoAuth = require('./keys/mongo/staging.thieng-db.json');
+var productionMongoAuth = require('./keys/mongo/production.thieng-db.json');
 
 /**
  * Contructor
@@ -44,7 +45,7 @@ configs.development = {
  */
 configs.staging = {
   // MongoDB
-  MONGO_HOST: `mongodb+srv://${stagingMongoAuth.username}:${stagingMongoAuth.password}@cluster0-rl4kc.mongodb.net/test?retryWrites=true&w=majority`,
+  MONGO_HOST: `mongodb+srv://${stagingMongoAuth.username}:${stagingMongoAuth.password}@cluster0-rl4kc.mongodb.net/${stagingMongoAuth.dbname}?retryWrites=true&w=majority`,
   MONGO_CONNECT_OPTION: {
     useCreateIndex: true,
     useNewUrlParser: true,
@@ -75,7 +76,7 @@ configs.staging = {
  */
 configs.production = {
   // MongoDB
-  MONGO_HOST: 'mongodb://localhost/thieng_prod',
+  MONGO_HOST: `mongodb+srv://${productionMongoAuth.username}:${productionMongoAuth.password}@cluster0-tndtz.mongodb.net/${productionMongoAuth.dbname}?retryWrites=true&w=majority`,
   MONGO_CONNECT_OPTION: {
     useCreateIndex: true,
     useNewUrlParser: true,

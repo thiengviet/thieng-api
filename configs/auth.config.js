@@ -3,6 +3,8 @@ var devGoogleAuth = require('./keys/google/dev.google-auth.json');
 var devFacebookAuth = require('./keys/facebook/dev.facebook-auth.json');
 var stagingGoogleAuth = require('./keys/google/staging.google-auth.json');
 var stagingFacebookAuth = require('./keys/facebook/staging.facebook-auth.json');
+var productionGoogleAuth = require('./keys/google/production.google-auth.json');
+var productionFacebookAuth = require('./keys/facebook/production.facebook-auth.json');
 
 /**
  * Contructor
@@ -55,8 +57,14 @@ configs.production = {
     publicKey: fs.readFileSync(__dirname + '/keys/auth/production.public.pem'),
     privateKey: fs.readFileSync(__dirname + '/keys/auth/production.private.key'),
   },
-  google: {},
-  facebook: {},
+  google: {
+    clientId: productionGoogleAuth.client_id,
+    projectId: productionGoogleAuth.project_id,
+    javascriptOrigins: productionGoogleAuth.javascript_origins
+  },
+  facebook: {
+    appId: productionFacebookAuth.app_id
+  },
   apple: {}
 };
 
