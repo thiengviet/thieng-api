@@ -21,7 +21,7 @@ configs.staging = {
  * Production configurations
  */
 configs.production = {
-  PORT: 80,
+  PORT: 3001,
 };
 
 /**
