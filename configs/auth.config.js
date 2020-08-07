@@ -6,8 +6,6 @@ var stagingFacebookAuth = require('./keys/facebook/staging.facebook-auth.json');
 var productionGoogleAuth = require('./keys/google/production.google-auth.json');
 var productionFacebookAuth = require('./keys/facebook/production.facebook-auth.json');
 
-console.log(productionFacebookAuth)
-
 /**
  * Contructor
  */
