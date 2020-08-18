@@ -6,10 +6,9 @@ var mongoose = require('mongoose');
 var Item = new mongoose.Schema({
   // Info
   name: { type: String },
-  description1: { type: String },
-  description2: { type: String },
+  descriptions: { type: [String], default: [] },
   price: { type: Number },
-  tags: { type: Array, default: [] },
+  tags: { type: [String], default: [] },
   category: { type: String, default: 'other' },
   thumbnailId: { type: mongoose.Schema.Types.ObjectId },
   fileIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
