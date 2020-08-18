@@ -17,7 +17,7 @@ module.exports = {
     if (!_id) return next('Invalid inputs');
 
     return db.Order.findOne(
-      { _id, userId: auth._id },
+      { _id, $or: [{ userId: auth._id }, { sellerId: auth._id }] },
       function (er, re) {
         if (er) return next('Database error');
         return res.send({ status: 'OK', data: re });
