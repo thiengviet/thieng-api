@@ -33,3 +33,4 @@ jobs:
             docker run -d --name api tuphanson/thieng-api
             docker cp ./keys api:/home/thieng-api/configs/keys
             docker network connect --ip 172.18.0.3 thieng-net api
+            docker image prune -a -f
