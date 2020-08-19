@@ -67,8 +67,6 @@ module.exports = {
     var { metadata } = req.body;
     if (!file) return next('Invalid inputs');
 
-    console.log(file)
-
     var newFile = new db.File({
       name: file.key,
       type: file.mimetype,

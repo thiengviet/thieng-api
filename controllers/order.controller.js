@@ -114,6 +114,7 @@ module.exports = {
     if (!order) return next('Invalid inputs');
 
     delete order.status; // Disallow users change order status
+    delete order.paymentStatus; // Disallow users change order payment status
     return db.Order.findOneAndUpdate(
       { _id: order._id, userId: auth._id },
       { ...order, userId: auth._id },
@@ -145,17 +146,33 @@ module.exports = {
         let history = re.statusHistory;
         history.push({ status: order.status });
         return re.updateOne(
-          {
-            $set: {
-              status: order.status,
-              statusHistory: history
-            }
-          },
+          { $set: { status: order.status, statusHistory: history } },
           function (er, re) {
             if (er) return next('Database error');
-
             return res.send({ status: 'OK', data: re });
           });
+      });
+  },
+
+  /**
+   * Update order payment status (for seller only)
+   * @function updateOrderPaymentStatus
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  updateOrderPaymentStatus: function (req, res, next) {
+    const auth = req.auth;
+    const { order } = req.body;
+    if (!order || typeof order.paymentStatus !== 'boolean') return next('Invalid inputs');
+
+    return db.Order.findOneAndUpdate(
+      { _id: order._id, sellerId: auth._id },
+      { paymentStatus: order.paymentStatus },
+      { new: true },
+      function (er, re) {
+        if (er) return next('Database error');
+        return res.send({ status: 'OK', data: re });
       });
   },
 

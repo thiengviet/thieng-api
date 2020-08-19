@@ -12,7 +12,7 @@ var User = new mongoose.Schema({
   phone: { type: String },
   addresses: { type: [String], default: [] }, // [home, company, other]
   description: { type: String },
-  role: { type: String, enum: ['root', 'admin', 'user'], default: 'user' }
+  role: { type: String, enum: ['shipper', 'seller', 'user'], default: 'user' }
 }, { timestamps: true });
 
 /**
