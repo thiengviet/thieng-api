@@ -21,18 +21,27 @@ module.exports = {
       email: auth.email,
       displayname: auth.displayname,
       avatar: auth.avatar,
-      role: 'user' // Default value doesn't work with upsert
     }
 
-    return db.User.findOneAndUpdate(
-      { email: user.email },
-      { $set: user },
-      { upsert: true, new: true },
-      function (er, re) {
+    return db.User.findOne({ email: user.email }, function (er, re) {
+      if (er) return next(er);
+
+      if (re) return db.User.findOneAndUpdate(
+        { email: user.email },
+        user, { new: true },
+        function (er, re) {
+          if (er) return next(er);
+          req.auth._id = Types.ObjectId(re._id);
+          return next();
+        });
+
+      const newUser = new db.User(user);
+      return newUser.save(function (er, re) {
         if (er) return next(er);
         req.auth._id = Types.ObjectId(re._id);
         return next();
       });
+    });
   },
 
   /**
