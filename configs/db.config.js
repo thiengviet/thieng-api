@@ -31,7 +31,7 @@ configs.development = {
   S3_SECRET_KEY: devS3Auth.secretKey,
   S3_BUCKET_NAME: 'dev-thieng-static',
   LIMIT_FILE_SIZE: {
-    image: 10 * 1024 * 1024,
+    image: 5 * 1024 * 1024,
     video: 50 * 1024 * 1024,
   },
   FILE_TYPES: {
@@ -62,7 +62,7 @@ configs.staging = {
   S3_SECRET_KEY: stagingS3Auth.secretKey,
   S3_BUCKET_NAME: 'staging-thieng-static',
   LIMIT_FILE_SIZE: {
-    image: 10 * 1024 * 1024,
+    image: 5 * 1024 * 1024,
     video: 50 * 1024 * 1024,
   },
   FILE_TYPES: {
@@ -93,7 +93,7 @@ configs.production = {
   S3_SECRET_KEY: productionS3Auth.secretKey,
   S3_BUCKET_NAME: 'thieng-static',
   LIMIT_FILE_SIZE: {
-    image: 10 * 1024 * 1024,
+    image: 5 * 1024 * 1024,
     video: 50 * 1024 * 1024,
   },
   FILE_TYPES: {
