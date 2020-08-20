@@ -19,7 +19,7 @@ var Order = new mongoose.Schema({
   items: { type: [OrderItem], required: true },
   sellerId: { type: mongoose.Schema.Types.ObjectId, required: true },
   // Payment info
-  paymentMethod: { type: String, enum: ['cod', 'credit', 'momo', 'vnpay'], default: 'cod' },
+  paymentMethod: { type: String, enum: ['cod', 'credit', 'momo', 'vnpay', 'bank'], default: 'cod' },
   paymentStatus: { type: Boolean, default: false },
   promoCode: { type: String },
   // Delivery info
