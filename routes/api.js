@@ -7,7 +7,7 @@ var router = express.Router();
 var {
   auth, user, file, item,
   project, order, recommendation,
-  comment, feeling,
+  comment, feeling, stat,
 } = require('../controllers');
 
 
@@ -73,6 +73,9 @@ router.delete('/file', auth.bearerToken(false), file.deleteFile);
 
 // Recommendation (core)
 router.get('/recommendation/items', recommendation.recommendItems);
+
+// Statistics
+router.get('/stat/seller/number-items', stat.getNumberProducts);
 
 /**
  * Module exports

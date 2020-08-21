@@ -19,7 +19,7 @@ var Item = new mongoose.Schema({
   status: { type: String, enum: ['creating', 'selling', 'archived'], default: 'creating' },
 }, { timestamps: true });
 
-Item.index({ name: 'text', description1: 'text' });
+Item.index({ name: 'text', descriptions: 'text' });
 
 /**
  * Module exports

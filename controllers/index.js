@@ -7,6 +7,7 @@ var order = require('./order.controller');
 var recommendation = require('./recommendation.controller');
 var comment = require('./comment.controller');
 var feeling = require('./feeling.controller');
+var stat = require('./stat.controller');
 
 module.exports = {
   auth,
@@ -18,4 +19,5 @@ module.exports = {
   recommendation,
   comment,
   feeling,
+  stat,
 }

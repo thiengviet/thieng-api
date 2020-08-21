@@ -43,6 +43,7 @@ module.exports = {
       { $limit: limit },
       { $project: { _id: 1 } }
     ]).exec(function (er, re) {
+      console.log(er)
       if (er) return next('Database error');
       return res.send({ status: 'OK', data: re, pagination: { limit, page } });
     });
