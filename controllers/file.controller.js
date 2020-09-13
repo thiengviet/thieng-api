@@ -62,12 +62,12 @@ module.exports = {
    * @param {*} next
    */
   addFile: function (req, res, next) {
-    var auth = req.auth;
-    var file = req.file;
-    var { metadata } = req.body;
+    const auth = req.auth;
+    const file = req.file;
+    const { metadata } = req.body;
     if (!file) return next('Invalid inputs');
 
-    var newFile = new db.File({
+    const newFile = new db.File({
       name: file.key,
       type: file.mimetype,
       source: file.location,
